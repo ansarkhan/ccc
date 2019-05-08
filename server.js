@@ -10,6 +10,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
+require('./routes/apiRoutes')(app);
 
 // React Front-End 
 if(process.env.NODE_ENV === 'production') {
@@ -19,3 +20,11 @@ if(process.env.NODE_ENV === 'production') {
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
     });
   };
+
+const PORT = process.env.PORT || 4000;
+
+app.listen(PORT, () => {
+      console.log(`litening to port ${PORT}`)
+  });
+
+  module.exports = app;
