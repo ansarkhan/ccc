@@ -22,17 +22,17 @@ export default class App extends Component {
       formData.append(i, file)
     })
 
-    // fetch('/image-upload', {
-    //   method: 'POST',
-    //   body: formData
-    // })
-    // .then(res => res.json())
-    // .then(images => {
-    //   this.setState({ 
-    //     uploading: false,
-    //     images
-    //   })
-    // })
+    fetch('/image-upload', {
+      method: 'POST',
+      body: formData
+    })
+    .then(res => res.json())
+    .then(images => {
+      this.setState({ 
+        uploading: false,
+        images
+      })
+    })
   }
 
 
