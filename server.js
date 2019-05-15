@@ -5,12 +5,15 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const imageUploadRoutes = require('./routes/image-upload');
 
 const app = express();
 
 app.use(bodyParser.json());
 
 require('./routes/apiRoutes')(app);
+
+app.use('/api/', imageUploadRoutes);
 
 // React Front-End 
 if(process.env.NODE_ENV === 'production') {
@@ -24,7 +27,7 @@ if(process.env.NODE_ENV === 'production') {
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
-      console.log(`litening to port ${PORT}`)
+      console.log(`listening to port ${PORT}`)
   });
 
   module.exports = app;
