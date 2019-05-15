@@ -34,39 +34,40 @@ module.exports = upload;
 
 var rekognition = new AWS.Rekognition();
 
-s3.listObjects(s3Params, function (err,data) {
-       if (err) {
-              console.log(err);
-       } else {
-              console.log(data);  
-       }
 
-       objectNameArr = data.Contents.map(function (el) { return el.Key; });
-       // console.log(objectNameArr);
+// s3.listObjects(s3Params, function (err,data) {
+//        if (err) {
+//               console.log(err);
+//        } else {
+//               console.log(data);  
+//        }
 
-       objectNameArr.forEach(element => {
+//        objectNameArr = data.Contents.map(function (el) { return el.Key; });
+//        // console.log(objectNameArr);
 
-              let rkParams = {
-                     Image: {
-                        S3Object: {
-                        Bucket: "ccc-project-3-sandbox",
-                        Name: element
-                       }
-                      },
+//        objectNameArr.forEach(element => {
+
+//               let rkParams = {
+//                      Image: {
+//                         S3Object: {
+//                         Bucket: "ccc-project-3-sandbox",
+//                         Name: element
+//                        }
+//                       },
                      
-                     };
+//                      };
                  
-                     rekognition.detectLabels(rkParams, function(err, data) {
-                     if (err) {
-                            console.log(err, err.stack)
-                     } else {
-                            console.log(data)
-                     } 
-                     });
+//                      rekognition.detectLabels(rkParams, function(err, data) {
+//                      if (err) {
+//                             console.log(err, err.stack)
+//                      } else {
+//                             console.log(data)
+//                      } 
+//                      });
               
-       });
+//        });
 
-});
+// });
 
 
 // Steps for uploading and analyzing
@@ -77,16 +78,16 @@ s3.listObjects(s3Params, function (err,data) {
 // - Send Rekognition tags to DB
 
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-// User -> React Uploader -> s3 
-// s3 -> DB
+// User -> React Uploader -> POST to s3 
+// s3 -> DB 
 // s3 -> Rekognition -> DB
+//  DB -> React
 
 
 // EXAMPLE OBJECT
 
 // {
 //     name: file.name,
-//     url: s3ObjectURL,
 //     createdAt: 05/09/2019, 10:00:00,
 //     tags: [tag1, tag2, tag3]
 //     }
