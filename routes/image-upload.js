@@ -5,9 +5,10 @@ const upload = require('../dummy');
 const AWS = require('aws-sdk');
 
 AWS.config = new AWS.Config();
-AWS.config.accessKeyId = "AKIAVYR463QKC55KAAFA";
-AWS.config.secretAccessKey = "PJOiWN6dbn+vgvGjkCiThmoi5zoze8odEEcrPaE+";
+AWS.config.accessKeyId = "AKIAVYR463QKBOP4IGMM";
+AWS.config.secretAccessKey = "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";
 AWS.config.region = "us-east-1";
+
 const s3 = new AWS.S3();
 
 // const singleUpload = upload.single('image');
