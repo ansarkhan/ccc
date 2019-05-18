@@ -13,8 +13,9 @@ export default class App extends Component {
   }
 
   onChange = e => {
+    // e.preventDefault();
     const files = Array.from(e.target.files)
-    this.setState({ uploading: true , images: files})
+    // this.setState({ uploading: true , images: files})
 
     const formData = new FormData()
 
@@ -22,28 +23,28 @@ export default class App extends Component {
       formData.append(i, file)
     })
 
-    // fetch('/image-upload', {
-    //   method: 'POST',
-    //   body: formData
-    // })
-    // .then(res => res.json())
-    // .then(images => {
-    //   this.setState({ 
-    //     uploading: false,
-    //     images
-    //   })
-    // })
+    fetch('/api/image-upload', {
+      method: 'POST',
+      body: formData
+    })
+    .then(res => res.json())
+    .then(images => {
+      this.setState({ 
+        uploading: false,
+        images
+      })
+    })
   }
 
 
   render() {
     const { uploading, images } = this.state
-
+    console.log('this.state.images',this.state.images);
     const content = () => {
       switch(true) {
         case images.length > 0:
         console.log('case: images',images);
-        return <div><UploadButton onChange={this.onChange} /> <img src= {images[0].name} alt=""/></div>
+        return <div><UploadButton onChange={this.onChange} /> <img src= {this.state.images[0].name} alt=""/></div>
           // return <div><UploadButton onChange={this.onChange} /> <Images images={images} removeImage={this.removeImage}/></div>
         default:
         console.log('case: default');

@@ -10,10 +10,10 @@ AWS.config.secretAccessKey = "PJOiWN6dbn+vgvGjkCiThmoi5zoze8odEEcrPaE+";
 AWS.config.region = "us-east-1";
 const s3 = new AWS.S3();
 
-// const singleUpload = upload.single('image');
+const singleUpload = upload.single('image');
 
-// router.post('/image-upload', function(req, res) {
-//   // console.log('request here',req);
+// router.post('/api/image-upload', function(req, res) {
+//   console.log('request here',req.body);
 //   singleUpload(req, res, function(err, some) {
 //     if (err) {
 //       console.log('res here',res,'some here',some);
@@ -24,7 +24,12 @@ const s3 = new AWS.S3();
 //   });
 // })
 
-router.post("/image-upload", function (req, res) {
+// module.exports = router;
+
+module.exports = (app) => {
+
+router.post("/api/image-upload", function (req, res) {
+  console.log('req.body',req.body);
   const file = (req.body.imageUpload);
   const keyNum = Date.now().toString()
   const params = {
@@ -43,7 +48,8 @@ router.post("/image-upload", function (req, res) {
       console.log('data',data);
     }
   });
-  // res.redirect("/feed");
+  res.redirect("/api/test");
+  // res.json(req.body);
+    // res.redirect("/");
 });
-
-module.exports = router;
+}
