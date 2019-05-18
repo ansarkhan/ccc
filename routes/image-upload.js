@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const upload = require('../dummy');
+const upload = require('../client/src/dummy');
 
 const AWS = require('aws-sdk');
 

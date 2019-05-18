@@ -7,30 +7,41 @@ AWS.config.accessKeyId = "AKIAVYR463QKC55KAAFA";
 AWS.config.secretAccessKey = "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";
 AWS.config.region = "us-east-1";
 
-const s3 = new AWS.S3();
-
+const s3 = new AWS.S3({params: {Bucket: "ccc-project-3-sandbox"}});
 
 let objectNameArr = []
 
-let s3Params = { 
-       Bucket: "ccc-project-3-sandbox"
-}
+// let s3Params = { 
+//        Bucket: "ccc-project-3-sandbox",
+//        ACL : 'public-read'
+// }
 
-const upload = multer({
-       storage: multerS3({
-         s3: s3,
-         bucket: s3Params.Bucket,
-         acl: 'public-read',
-         metadata: function (req, file, cb) {
-           cb(null, {fieldName: file.fieldname});
-         },
-         key: function (req, file, cb) {
-           cb(null, Date.now().toString())
-         }
-       })
-     })
+
+// s3.createBucket(s3Params, function(err, data) {
+//   if (err) {
+//     console.log("Error", err);
+//   } else {
+//     console.log("Success", data.Location);
+//   }
+// });
+
+module.exports = s3;
+
+// const upload = multer({
+//        storage: multerS3({
+//          s3: s3,
+//          bucket: s3Params.Bucket,
+//          acl: 'public-read',
+//          metadata: function (req, file, cb) {
+//            cb(null, {fieldName: file.fieldname});
+//          },
+//          key: function (req, file, cb) {
+//            cb(null, Date.now().toString())
+//          }
+//        })
+//      })
      
-module.exports = upload;
+// module.exports = upload;
 
 var rekognition = new AWS.Rekognition();
 
