@@ -1,0 +1,36 @@
+
+.image-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+}
+.inputfile + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: black;
+    background-color: #d3d3d3;
+}
+.inputfile {
+    display: block;
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+    z-index: -1;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: #d6d6d6;
+}
+.inputfile + label {
+    cursor: pointer; /* "hand" cursor */
+    padding: 10px 35px;
+    margin: 15px;
+}
+.inputfile:focus + label {
+	outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
+}
