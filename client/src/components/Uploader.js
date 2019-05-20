@@ -14,6 +14,7 @@ export class Uploader extends Component {
             file: file
         });
     }
+    
     handleSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData();

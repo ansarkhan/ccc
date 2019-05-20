@@ -1,9 +1,39 @@
 module.exports = (app) => {
 
+    const mongojs = require("mongojs");
+
+    const databaseUrl = "project3";
+    const collections = ["images"];
+    const db = mongojs(databaseUrl, collections);
+
     const AWS = require('aws-sdk');
     const s3 = new AWS.S3();
 
     const fs = require('fs');
+
+
+    // Update image name
+    app.post('api/image-name/edit', (req,res) {
+      //find image, update name
+    });
+
+    app.post('api/image-tag/add', (req,res) {
+      //find image, add tag
+    });
+
+    app.post('api/image-tag/del', (req,res) {
+      //find image, delete tag
+    });
+
+    app.post('api/image-album/add', (req,res) {
+      //find image, add album
+    });
+
+    app.post('api/image-album/delete', (req,res) {
+      //find image, delete album
+    });
+
+
 
     // test API route for 
     app.get('/api/test', (req, res) => {
@@ -57,6 +87,23 @@ module.exports = (app) => {
           } else {
             console.log("image uploaded to s3!")
             console.log(data);
+
+            // s3 object name
+            // s3 object url
+            // s3 object createdDate
+
+            // Make call to rekognition
+              // tags
+            
+            // Send to mongo
+
+
+            // Update image name
+            // Update image tags
+              // add image tags
+              // delete image tags
+            // Update image album
+            
           }
     
         });
