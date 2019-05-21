@@ -1,18 +1,8 @@
 module.exports = (app) => {
 
-  // const mongojs = require("mongojs");
-
-  // const databaseUrl = "project3";
-  // const collections = ["images"];
-  // const db = mongojs(databaseUrl, collections);
-
   const Album = require('../models/Album');
   const Image = require('../models/Image');
   const Tag = require('../models/Image');
-
-  // db.on("error", function (error) {
-  //   console.log("Database Error:", error);
-  // });
 
   const AWS = require('aws-sdk');
   AWS.config.update({ region: 'us-east-1' });
@@ -22,7 +12,9 @@ module.exports = (app) => {
   const fs = require('fs');
 
   app.get('/api/all-images', (req, res) => {
-    Image.find({}, function (error, found) {
+    Image.find({})
+    .populate("tags")
+    .then (function (error, found) {
       // Throw any errors to the console
       if (error) {
         console.log(error);
@@ -32,7 +24,6 @@ module.exports = (app) => {
         res.json(found);
       }
     });
-
   });
 
   // Update name of image with given id
@@ -82,7 +73,7 @@ module.exports = (app) => {
 
   });
 
-  app.post('/api/tag/del', (req, res) => {
+  app.post('/api/tag/del/:id', (req, res) => {
     Tag.findByIdAndRemove(req.params.id, (err, tag) => {
       if (err) {
         console.log(err);
@@ -107,6 +98,7 @@ module.exports = (app) => {
     res.send('test')
   });
 
+  // Add (Upload) an Image
   app.post('/api/images', function (req, res) {
     let sampleFile;
 
@@ -183,6 +175,7 @@ module.exports = (app) => {
               tags.push(tagObject);
             }
 
+            // for each object in tags array, create Tag model
             Tag.create(tags)
               .then(function (dbTag) {
                 console.log('tags', tags);
@@ -195,6 +188,7 @@ module.exports = (app) => {
                   "url": data.Location
                 };
 
+                // create Image model
                 Image.create(imageObject)
                   .then(function (dbImage) {
                     console.log(dbImage);
