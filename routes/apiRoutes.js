@@ -1,83 +1,87 @@
 module.exports = (app) => {
 
+  // const mongojs = require("mongojs");
 
-    const mongojs = require("mongojs");
+  // const databaseUrl = "project3";
+  // const collections = ["images"];
+  // const db = mongojs(databaseUrl, collections);
 
-    const databaseUrl = "project3";
-    const collections = ["images"];
-    const db = mongojs(databaseUrl, collections);
+  const Album = require('../models/Album');
+  const Image = require('../models/Image');
 
-    db.on("error", function(error) {
-      console.log("Database Error:", error);
-    });
+  // db.on("error", function (error) {
+  //   console.log("Database Error:", error);
+  // });
 
-    const AWS = require('aws-sdk');
-    const s3 = new AWS.S3();
-  
-
-    const mongojs = require("mongojs");
-    const databaseUrl = "project3";
-    const collections = ["images"];
-    const db = mongojs(databaseUrl, collections);
-
-    app.get('/api/all-images', (req, res) => {
-
-      db.images.find({}, function(error, found) {
-        // Throw any errors to the console
-        if (error) {
-          console.log(error);
-        }
-        // If there are no errors, send the data to the browser as json
-        else {
-          res.json(found);
-        }
-      });
-
-    });
-
-
-    // Update image name
-    app.post('/api/image-name/edit', (req,res) => {
-      console.log(req.body);
-      res.send("ok");
-
-      db.images.findAndModify({
-        query: { name: req.body.name },
-        update: { $set: { name: req.body.name_new } },
-        new: true
-      }, function (err, doc, lastErrorObject) {
-
-      });
-
-    });
-
-    app.post('/api/image-tag/add', (req,res) => {
-      //find image, add tag
-    });
-
-    app.post('/api/image-tag/del', (req,res) => {
-      //find image, delete tag
-    });
-
-    app.post('/api/image-album/add', (req,res) => {
-      //find image, add album
-    });
-
-    app.post('/api/image-album/delete', (req,res) => {
-      //find image, delete album
-    });
-
-
-
-    // test API route for 
-    app.get('/api/test', (req, res) => {
-        res.send('test')
-    });
-  
-  const fs = require('fs');
+  const AWS = require('aws-sdk');
+  AWS.config.update({region:'us-east-1'});
 
   const s3 = new AWS.S3();
 
+  const fs = require('fs');
+
+  app.get('/api/all-images', (req, res) => {
+
+    Image.find({}, function (error, found) {
+      // Throw any errors to the console
+      if (error) {
+        console.log(error);
+      }
+      // If there are no errors, send the data to the browser as json
+      else {
+        res.json(found);
+      }
+    });
+
+  });
+
+  // Update name of image with given id
+  app.post('/api/image/edit/:id', (req, res) => {
+    console.log(req.body);
+    res.send("ok");
+
+    Image.findByIdAndUpdate(req.params.id, {
+      $set: { name: req.body.name_new}
+      },
+      { new: true },
+      function(error, doc,lastErrorObject) {
+          if (error) {
+              console.log(error);
+              res.status(500);
+          } else {
+
+          }
+      });
+
+  });
+
+  // Add image-tag to image with given id
+  app.post('/api/image-tag/add/:id', (req, res) => {
+    Image.findByIdAndUpdate(req.params.id, {
+      $push: { 'tags': req.body.tag_new}
+      },
+      { new: true },
+      function(error, doc,lastErrorObject) {
+          if (error) {
+              console.log(error);
+              res.status(500);
+          } else {
+
+          }
+      });
+  });
+
+  app.post('/api/image-tag/del', (req, res) => {
+    //find image, delete tag
+  });
+
+  app.post('/api/image-album/add', (req, res) => {
+    //find image, add album
+  });
+
+  app.post('/api/image-album/delete', (req, res) => {
+    //find image, delete album
+  });
 
   // test API route for 
   app.get('/api/test', (req, res) => {
@@ -148,16 +152,12 @@ module.exports = (app) => {
             console.log(err, err.stack)
           } else {
             console.log("image uploaded to s3!")
-            console.log(data);
-
-            // console.log(res)
 
             let tags = [];
             let length = Math.min(5, res.Labels.length);
             for (let i = 0; i < length; i++) {
               tags.push(res.Labels[i].Name);
             }
-            // console.log(tags)
 
             let imageObject = {
               "createdAt": Date.now(),
@@ -165,8 +165,14 @@ module.exports = (app) => {
               "tags": tags,
               "url": data.Location
             };
-            // console.log(imageObject);
-            db.images.insert(imageObject);
+            // db.images.insert(imageObject);
+            Image.create(imageObject)
+              .then(function (dbImage) {
+                console.log(dbImage);
+              })
+              .catch(function (err) {
+                console.log(err);
+              });
           }
         });
       }

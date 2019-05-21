@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
+const mongoose = require('mongoose');
 
 // var AWS = require('aws-sdk');
 // AWS.config.update({region:'us-east-1'});
@@ -13,6 +14,20 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 app.use(fileUpload());
+
+mongoose.Promise = Promise;
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/project3";
+
+mongoose.set('useCreateIndex', true)
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+
+const db = mongoose.connection;
+db.on("error", (error) => {
+    console.log("Mongoose Error: ", error);
+});
+db.once("open", () => {
+    console.log("Database Connection Success");
+});
 
 require('./routes/apiRoutes')(app);
 
