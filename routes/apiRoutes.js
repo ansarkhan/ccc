@@ -1,13 +1,79 @@
 module.exports = (app) => {
 
-  const AWS = require('aws-sdk');
-  AWS.config.update({ region: 'us-east-1' });
 
-  const mongojs = require("mongojs");
-  const databaseUrl = "project3";
-  const collections = ["images"];
-  const db = mongojs(databaseUrl, collections);
+    const mongojs = require("mongojs");
 
+    const databaseUrl = "project3";
+    const collections = ["images"];
+    const db = mongojs(databaseUrl, collections);
+
+    db.on("error", function(error) {
+      console.log("Database Error:", error);
+    });
+
+    const AWS = require('aws-sdk');
+    const s3 = new AWS.S3();
+  
+
+    const mongojs = require("mongojs");
+    const databaseUrl = "project3";
+    const collections = ["images"];
+    const db = mongojs(databaseUrl, collections);
+
+    app.get('/api/all-images', (req, res) => {
+
+      db.images.find({}, function(error, found) {
+        // Throw any errors to the console
+        if (error) {
+          console.log(error);
+        }
+        // If there are no errors, send the data to the browser as json
+        else {
+          res.json(found);
+        }
+      });
+
+    });
+
+
+    // Update image name
+    app.post('/api/image-name/edit', (req,res) => {
+      console.log(req.body);
+      res.send("ok");
+
+      db.images.findAndModify({
+        query: { name: req.body.name },
+        update: { $set: { name: req.body.name_new } },
+        new: true
+      }, function (err, doc, lastErrorObject) {
+
+      });
+
+    });
+
+    app.post('/api/image-tag/add', (req,res) => {
+      //find image, add tag
+    });
+
+    app.post('/api/image-tag/del', (req,res) => {
+      //find image, delete tag
+    });
+
+    app.post('/api/image-album/add', (req,res) => {
+      //find image, add album
+    });
+
+    app.post('/api/image-album/delete', (req,res) => {
+      //find image, delete album
+    });
+
+
+
+    // test API route for 
+    app.get('/api/test', (req, res) => {
+        res.send('test')
+    });
+  
   const fs = require('fs');
 
   const s3 = new AWS.S3();
@@ -81,6 +147,9 @@ module.exports = (app) => {
           if (err) {
             console.log(err, err.stack)
           } else {
+            console.log("image uploaded to s3!")
+            console.log(data);
+
             // console.log(res)
 
             let tags = [];
