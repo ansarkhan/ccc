@@ -6,30 +6,50 @@ module.exports = (app) => {
     const collections = ["images"];
     const db = mongojs(databaseUrl, collections);
 
+    db.on("error", function(error) {
+      console.log("Database Error:", error);
+    });
+
     const AWS = require('aws-sdk');
     const s3 = new AWS.S3();
 
     const fs = require('fs');
 
+    app.get('/api/all-images', (req, res) => {
 
-    // Update image name
-    app.post('api/image-name/edit', (req,res) {
-      //find image, update name
+      db.images.find({}, function(error, found) {
+        // Throw any errors to the console
+        if (error) {
+          console.log(error);
+        }
+        // If there are no errors, send the data to the browser as json
+        else {
+          res.json(found);
+        }
+      });
+
     });
 
-    app.post('api/image-tag/add', (req,res) {
+
+    // Update image name
+    app.post('/api/image-name/edit', (req,res) => {
+      console.log(req.body);
+      res.send("hello!");
+    });
+
+    app.post('api/image-tag/add', (req,res) => {
       //find image, add tag
     });
 
-    app.post('api/image-tag/del', (req,res) {
+    app.post('api/image-tag/del', (req,res) => {
       //find image, delete tag
     });
 
-    app.post('api/image-album/add', (req,res) {
+    app.post('api/image-album/add', (req,res) => {
       //find image, add album
     });
 
-    app.post('api/image-album/delete', (req,res) {
+    app.post('api/image-album/delete', (req,res) => {
       //find image, delete album
     });
 
