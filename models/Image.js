@@ -6,7 +6,8 @@ const ImageSchema = new Schema({
         type: Date
     },
     name: {
-        type: String
+        type: String,
+        required: true
     },
     tags: [{
         type: Schema.Types.ObjectId,

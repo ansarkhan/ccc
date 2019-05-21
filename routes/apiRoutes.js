@@ -15,7 +15,7 @@ module.exports = (app) => {
   // });
 
   const AWS = require('aws-sdk');
-  AWS.config.update({region:'us-east-1'});
+  AWS.config.update({ region: 'us-east-1' });
 
   const s3 = new AWS.S3();
 
@@ -41,17 +41,17 @@ module.exports = (app) => {
     res.send("ok");
 
     Image.findByIdAndUpdate(req.params.id, {
-      $set: { name: req.body.name_new}
-      },
+      $set: { name: req.body.name_new }
+    },
       { new: true },
-      function(error, doc,lastErrorObject) {
-          if (error) {
-              console.log(error);
-              res.status(500);
-          } else {
+      function (error, doc, lastErrorObject) {
+        if (error) {
+          console.log(error);
+          res.status(500);
+        } else {
 
 
-          }
+        }
       });
 
   });
@@ -59,25 +59,25 @@ module.exports = (app) => {
   // Add tag to image with given id
   app.post('/api/tag/add/:id', (req, res) => {
     let newTag = new Tag(req.body);
-    newTag.save(function(err, doc) {
-        if (err) {
-            console.log(err);
-            res.status(500);
-        } else {
-          Image.findByIdAndUpdate(req.params.id, {
-            $push: { 'tags': doc.id}
-            },
-            { new: true },
-            function(error, doc,lastErrorObject) {
-                if (error) {
-                    console.log(error);
-                    res.status(500);
-                } else {
-      
+    newTag.save(function (err, doc) {
+      if (err) {
+        console.log(err);
+        res.status(500);
+      } else {
+        Image.findByIdAndUpdate(req.params.id, {
+          $push: { 'tags': doc.id }
+        },
+          { new: true },
+          function (error, doc, lastErrorObject) {
+            if (error) {
+              console.log(error);
+              res.status(500);
+            } else {
 
-                }
-            });
-        }
+
+            }
+          });
+      }
     });
 
   });
@@ -85,13 +85,13 @@ module.exports = (app) => {
   app.post('/api/tag/del', (req, res) => {
     Tag.findByIdAndRemove(req.params.id, (err, tag) => {
       if (err) {
-          console.log(err);
-          res.status(500);
+        console.log(err);
+        res.status(500);
       } else {
 
 
       }
-  });
+    });
   });
 
   app.post('/api/image-album/add', (req, res) => {
@@ -172,28 +172,46 @@ module.exports = (app) => {
           } else {
             console.log("image uploaded to s3!")
 
-            let tags = [];
+            var tags = [];
             let length = Math.min(5, res.Labels.length);
+
             for (let i = 0; i < length; i++) {
-              tags.push(res.Labels[i].Name);
+              let tagObject = {
+                "name": res.Labels[i].Name
+              };
+              console.log('tagObject', tagObject);
+              tags.push(tagObject);
             }
 
-            let imageObject = {
-              "createdAt": Date.now(),
-              "name": data.Key,
-              "tags": tags,
-              "url": data.Location
-            };
-            // db.images.insert(imageObject);
-            Image.create(imageObject)
-              .then(function (dbImage) {
-                console.log(dbImage);
+            Tag.create(tags)
+              .then(function (dbTag) {
+                console.log('tags', tags);
+                console.log('dbTag', dbTag);
+
+                let imageObject = {
+                  "createdAt": Date.now(),
+                  "name": data.Key,
+                  "tags": tags,
+                  "url": data.Location
+                };
+
+                console.log('imageObject.tags', imageObject.tags);
+
+                Image.create(imageObject)
+                  .then(function (dbImage) {
+                    console.log(dbImage);
+                    console.log("dbImage.tags", dbImage.tags);
+                  })
+                  .catch(function (err) {
+                    console.log(err);
+                  });
+
               })
               .catch(function (err) {
                 console.log(err);
               });
-          }
-        });
+            }
+          });
       }
 
       // ROUTES/REQUESTS
