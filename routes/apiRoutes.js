@@ -191,11 +191,9 @@ module.exports = (app) => {
                 let imageObject = {
                   "createdAt": Date.now(),
                   "name": data.Key,
-                  "tags": tags,
+                  "tags": dbTag,
                   "url": data.Location
                 };
-
-                console.log('imageObject.tags', imageObject.tags);
 
                 Image.create(imageObject)
                   .then(function (dbImage) {
