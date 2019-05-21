@@ -8,9 +8,10 @@ const ImageSchema = new Schema({
     name: {
         type: String
     },
-    tags: {
-        type: Array
-    },
+    tags: [{
+        type: Schema.Types.ObjectId,
+        ref: "Tag"
+      }],
     url: {
         type: String
     }

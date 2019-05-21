@@ -8,6 +8,7 @@ module.exports = (app) => {
 
   const Album = require('../models/Album');
   const Image = require('../models/Image');
+  const Tag = require('../models/Image');
 
   // db.on("error", function (error) {
   //   console.log("Database Error:", error);
@@ -21,7 +22,6 @@ module.exports = (app) => {
   const fs = require('fs');
 
   app.get('/api/all-images', (req, res) => {
-
     Image.find({}, function (error, found) {
       // Throw any errors to the console
       if (error) {
@@ -50,29 +50,48 @@ module.exports = (app) => {
               res.status(500);
           } else {
 
+
           }
       });
 
   });
 
-  // Add image-tag to image with given id
-  app.post('/api/image-tag/add/:id', (req, res) => {
-    Image.findByIdAndUpdate(req.params.id, {
-      $push: { 'tags': req.body.tag_new}
-      },
-      { new: true },
-      function(error, doc,lastErrorObject) {
-          if (error) {
-              console.log(error);
-              res.status(500);
-          } else {
+  // Add tag to image with given id
+  app.post('/api/tag/add/:id', (req, res) => {
+    let newTag = new Tag(req.body);
+    newTag.save(function(err, doc) {
+        if (err) {
+            console.log(err);
+            res.status(500);
+        } else {
+          Image.findByIdAndUpdate(req.params.id, {
+            $push: { 'tags': doc.id}
+            },
+            { new: true },
+            function(error, doc,lastErrorObject) {
+                if (error) {
+                    console.log(error);
+                    res.status(500);
+                } else {
+      
 
-          }
-      });
+                }
+            });
+        }
+    });
+
   });
 
-  app.post('/api/image-tag/del', (req, res) => {
-    //find image, delete tag
+  app.post('/api/tag/del', (req, res) => {
+    Tag.findByIdAndRemove(req.params.id, (err, tag) => {
+      if (err) {
+          console.log(err);
+          res.status(500);
+      } else {
+
+
+      }
+  });
   });
 
   app.post('/api/image-album/add', (req, res) => {
