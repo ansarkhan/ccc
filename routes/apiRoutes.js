@@ -8,13 +8,10 @@ module.exports = (app) => {
   const collections = ["images"];
   const db = mongojs(databaseUrl, collections);
 
-
   const fs = require('fs');
 
   const s3 = new AWS.S3();
 
-
-  const fs = require('fs');
 
   // test API route for 
   app.get('/api/test', (req, res) => {
