@@ -11,23 +11,95 @@ module.exports = (app) => {
 
   const fs = require('fs');
 
+  // test API route 
+  app.get('/api/test', (req, res) => {
+    res.send('test')
+  });
+
+  // get all albums
+  app.get('/api/all-albums', (req, res) => {
+    Album.find({})
+      .populate("images")
+      .then(function (found) {
+        // Throw any errors to the console
+        res.json(found);
+      })
+      // If there are no errors, send the data to the browser as json
+      .catch(function (err) {
+        res.json(err)
+      });
+  });
+
+  // get album with given id
+  app.get('/api/album/:id', (req, res) => {
+    Album.findById(req.params.id)
+      .populate("images")
+      .then(function (found) {
+        // Throw any errors to the console
+        res.json(found);
+      })
+      // If there are no errors, send the data to the browser as json
+      .catch(function (err) {
+        res.json(err)
+      });
+  });
+
+
   // get all images
   app.get('/api/all-images', (req, res) => {
     Image.find({})
-    .populate("tags")
-    .then (function(found) {
-      // Throw any errors to the console
-      res.json(found);
-    })
+      .populate("tags")
+      .then(function (found) {
+        // Throw any errors to the console
+        res.json(found);
+      })
       // If there are no errors, send the data to the browser as json
-      .catch(function(err) {
+      .catch(function (err) {
         res.json(err)
       });
-    });
+  });
 
+  // get image with given id
+  app.get('/api/image/:id', (req, res) => {
+    Image.findById(req.params.id)
+      .populate("tags")
+      .then(function (found) {
+        // Throw any errors to the console
+        res.json(found);
+      })
+      // If there are no errors, send the data to the browser as json
+      .catch(function (err) {
+        res.json(err)
+      });
+  });
+
+  // TODO:
+  // What's this one for? -- Nolan
   app.post('/api/image/add', (req, res) => {
 
   })
+
+
+  // Update name of album with given id
+  app.post('/api/album/edit/:id', (req, res) => {
+    console.log(req.body);
+    res.send("ok");
+
+    Album.findByIdAndUpdate(req.params.id, {
+      $set: { name: req.body.name_new }
+    },
+      { new: true },
+      function (error, doc, lastErrorObject) {
+        if (error) {
+          console.log(error);
+          res.status(500);
+        } else {
+
+
+        }
+      });
+
+  });
 
 
   // Update name of image with given id
@@ -51,7 +123,7 @@ module.exports = (app) => {
 
   });
 
-  // Add tag to image with given id
+  // Add tag to image using image id
   app.post('/api/tag/add/:id', (req, res) => {
     let newTag = new Tag(req.body);
     newTag.save(function (err, doc) {
@@ -77,6 +149,7 @@ module.exports = (app) => {
 
   });
 
+  // Delete a tag from an image using tag id
   app.post('/api/tag/del/:id', (req, res) => {
     Tag.findByIdAndRemove(req.params.id, (err, tag) => {
       if (err) {
@@ -115,16 +188,18 @@ module.exports = (app) => {
 
   });
 
+  // TODO:
+  // Is this to delete an album entirely? 
+  // Or to remove the image from that album? 
+  // We may end up need both routes actually -- Nolan
   app.post('/api/image-album/delete', (req, res) => {
     //find image, delete album
   });
 
-  // test API route for 
-  app.get('/api/test', (req, res) => {
-    res.send('test')
-  });
 
   // Add (Upload) an Image
+  // Send to Rekognition to create Tags
+  // Create/Send Image and Tags to MongoDB
   app.post('/api/images', function (req, res) {
     let sampleFile;
 
@@ -162,7 +237,7 @@ module.exports = (app) => {
       ContentEncoding: 'base64',
       ContentType: 'image/jpeg',
       Key: sampleFile,
-      ACL:'public-read-write'
+      ACL: 'public-read-write'
     };
 
     // s3 upload method
@@ -205,8 +280,8 @@ module.exports = (app) => {
             // for each object in tags array, create Tag model
             Tag.create(tags)
               .then(function (dbTag) {
-                console.log('tags', tags);
-                console.log('dbTag', dbTag);
+                // console.log('tags', tags);
+                // console.log('dbTag', dbTag);
 
                 let imageObject = {
                   "createdAt": Date.now(),
@@ -218,8 +293,8 @@ module.exports = (app) => {
                 // create Image model
                 Image.create(imageObject)
                   .then(function (dbImage) {
-                    console.log(dbImage);
-                    console.log("dbImage.tags", dbImage.tags);
+                    // console.log(dbImage);
+                    // console.log("dbImage.tags", dbImage.tags);
                   })
                   .catch(function (err) {
                     console.log(err);
@@ -229,20 +304,10 @@ module.exports = (app) => {
               .catch(function (err) {
                 console.log(err);
               });
-            }
-          });
+          }
+        });
       }
-
-      // ROUTES/REQUESTS
-      // Update image name
-      // Update image tags
-      // add image tags
-      // delete image tags
-      // Update image album
-
     });
-
   });
-
 };
 
