@@ -1,89 +1,130 @@
 module.exports = (app) => {
 
+  const Album = require('../models/Album');
+  const Image = require('../models/Image');
+  const Tag = require('../models/Tag');
 
-    const mongojs = require("mongojs");
-
-    const databaseUrl = "project3";
-    const collections = ["images"];
-    const db = mongojs(databaseUrl, collections);
-
-    db.on("error", function(error) {
-      console.log("Database Error:", error);
-    });
-
-    const AWS = require('aws-sdk');
-    const s3 = new AWS.S3();
-  
-
-    const mongojs = require("mongojs");
-    const databaseUrl = "project3";
-    const collections = ["images"];
-    const db = mongojs(databaseUrl, collections);
-
-    app.get('/api/all-images', (req, res) => {
-
-      db.images.find({}, function(error, found) {
-        // Throw any errors to the console
-        if (error) {
-          console.log(error);
-        }
-        // If there are no errors, send the data to the browser as json
-        else {
-          res.json(found);
-        }
-      });
-
-    });
-
-
-    // Update image name
-    app.post('/api/image-name/edit', (req,res) => {
-      console.log(req.body);
-      res.send("ok");
-
-      db.images.findAndModify({
-        query: { name: req.body.name },
-        update: { $set: { name: req.body.name_new } },
-        new: true
-      }, function (err, doc, lastErrorObject) {
-
-      });
-
-    });
-
-    app.post('/api/image-tag/add', (req,res) => {
-      //find image, add tag
-    });
-
-    app.post('/api/image-tag/del', (req,res) => {
-      //find image, delete tag
-    });
-
-    app.post('/api/image-album/add', (req,res) => {
-      //find image, add album
-    });
-
-    app.post('/api/image-album/delete', (req,res) => {
-      //find image, delete album
-    });
-
-
-
-    // test API route for 
-    app.get('/api/test', (req, res) => {
-        res.send('test')
-    });
-  
-  const fs = require('fs');
+  const AWS = require('aws-sdk');
+  AWS.config.update({ region: 'us-east-1' });
 
   const s3 = new AWS.S3();
 
+  const fs = require('fs');
+
+  // get all images
+  app.get('/api/all-images', (req, res) => {
+    Image.find({})
+    .populate("tags")
+    .then (function(found) {
+      // Throw any errors to the console
+      res.json(found);
+    })
+      // If there are no errors, send the data to the browser as json
+      .catch(function(err) {
+        res.json(err)
+      });
+    });
+
+  app.post('/api/image/add', (req, res) => {
+
+  })
+
+
+  // Update name of image with given id
+  app.post('/api/image/edit/:id', (req, res) => {
+    console.log(req.body);
+    res.send("ok");
+
+    Image.findByIdAndUpdate(req.params.id, {
+      $set: { name: req.body.name_new }
+    },
+      { new: true },
+      function (error, doc, lastErrorObject) {
+        if (error) {
+          console.log(error);
+          res.status(500);
+        } else {
+
+
+        }
+      });
+
+  });
+
+  // Add tag to image with given id
+  app.post('/api/tag/add/:id', (req, res) => {
+    let newTag = new Tag(req.body);
+    newTag.save(function (err, doc) {
+      if (err) {
+        console.log(err);
+        res.status(500);
+      } else {
+        Image.findByIdAndUpdate(req.params.id, {
+          $push: { 'tags': doc.id }
+        },
+          { new: true },
+          function (error, doc, lastErrorObject) {
+            if (error) {
+              console.log(error);
+              res.status(500);
+            } else {
+
+
+            }
+          });
+      }
+    });
+
+  });
+
+  app.post('/api/tag/del/:id', (req, res) => {
+    Tag.findByIdAndRemove(req.params.id, (err, tag) => {
+      if (err) {
+        console.log(err);
+        res.status(500);
+      } else {
+
+
+      }
+    });
+  });
+
+  // Adding an album to an image
+  app.post('/api/album/add/:id', (req, res) => {
+    let newAlbum = new Album(req.body);
+    newAlbum.save(function (err, doc) {
+      if (err) {
+        console.log(err);
+        res.status(500);
+      } else {
+        Image.findByIdAndUpdate(req.params.id, {
+          $push: { 'album': doc.id }
+        },
+          { new: true },
+          function (error, doc, lastErrorObject) {
+            if (error) {
+              console.log(error);
+              res.status(500);
+            } else {
+
+
+            }
+          });
+      }
+    });
+
+  });
+
+  app.post('/api/image-album/delete', (req, res) => {
+    //find image, delete album
+  });
 
   // test API route for 
   app.get('/api/test', (req, res) => {
     res.send('test')
   });
 
+  // Add (Upload) an Image
   app.post('/api/images', function (req, res) {
     let sampleFile;
 
@@ -120,7 +161,8 @@ module.exports = (app) => {
       Bucket: "ccc-project-3-sandbox",
       ContentEncoding: 'base64',
       ContentType: 'image/jpeg',
-      Key: sampleFile
+      Key: sampleFile,
+      ACL:'public-read-write'
     };
 
     // s3 upload method
@@ -147,28 +189,48 @@ module.exports = (app) => {
           if (err) {
             console.log(err, err.stack)
           } else {
-            console.log("image uploaded to s3!")
-            console.log(data);
+            console.log("Image sent to Rekognition")
 
-            // console.log(res)
-
-            let tags = [];
+            var tags = [];
             let length = Math.min(5, res.Labels.length);
-            for (let i = 0; i < length; i++) {
-              tags.push(res.Labels[i].Name);
-            }
-            // console.log(tags)
 
-            let imageObject = {
-              "createdAt": Date.now(),
-              "name": data.Key,
-              "tags": tags,
-              "url": data.Location
-            };
-            // console.log(imageObject);
-            db.images.insert(imageObject);
-          }
-        });
+            for (let i = 0; i < length; i++) {
+              let tagObject = {
+                "name": res.Labels[i].Name
+              };
+              console.log('tagObject', tagObject);
+              tags.push(tagObject);
+            }
+
+            // for each object in tags array, create Tag model
+            Tag.create(tags)
+              .then(function (dbTag) {
+                console.log('tags', tags);
+                console.log('dbTag', dbTag);
+
+                let imageObject = {
+                  "createdAt": Date.now(),
+                  "name": data.Key,
+                  "tags": dbTag,
+                  "url": data.Location
+                };
+
+                // create Image model
+                Image.create(imageObject)
+                  .then(function (dbImage) {
+                    console.log(dbImage);
+                    console.log("dbImage.tags", dbImage.tags);
+                  })
+                  .catch(function (err) {
+                    console.log(err);
+                  });
+
+              })
+              .catch(function (err) {
+                console.log(err);
+              });
+            }
+          });
       }
 
       // ROUTES/REQUESTS
