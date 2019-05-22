@@ -8,7 +8,8 @@ const AlbumSchema = new Schema({
     name: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        default: 'My Album'
     },
     images: [{
         type: Schema.Types.ObjectId,

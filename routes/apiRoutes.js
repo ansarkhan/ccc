@@ -2,7 +2,7 @@ module.exports = (app) => {
 
   const Album = require('../models/Album');
   const Image = require('../models/Image');
-  const Tag = require('../models/Image');
+  const Tag = require('../models/Tag');
 
   const AWS = require('aws-sdk');
   AWS.config.update({ region: 'us-east-1' });
@@ -11,20 +11,24 @@ module.exports = (app) => {
 
   const fs = require('fs');
 
+  // get all images
   app.get('/api/all-images', (req, res) => {
     Image.find({})
     .populate("tags")
-    .then (function (error, found) {
+    .then (function(found) {
       // Throw any errors to the console
-      if (error) {
-        console.log(error);
-      }
+      res.json(found);
+    })
       // If there are no errors, send the data to the browser as json
-      else {
-        res.json(found);
-      }
+      .catch(function(err) {
+        res.json(err)
+      });
     });
-  });
+
+  app.post('/api/image/add', (req, res) => {
+
+  })
+
 
   // Update name of image with given id
   app.post('/api/image/edit/:id', (req, res) => {
@@ -85,8 +89,30 @@ module.exports = (app) => {
     });
   });
 
-  app.post('/api/image-album/add', (req, res) => {
-    //find image, add album
+  // Adding an album to an image
+  app.post('/api/album/add/:id', (req, res) => {
+    let newAlbum = new Album(req.body);
+    newAlbum.save(function (err, doc) {
+      if (err) {
+        console.log(err);
+        res.status(500);
+      } else {
+        Image.findByIdAndUpdate(req.params.id, {
+          $push: { 'album': doc.id }
+        },
+          { new: true },
+          function (error, doc, lastErrorObject) {
+            if (error) {
+              console.log(error);
+              res.status(500);
+            } else {
+
+
+            }
+          });
+      }
+    });
+
   });
 
   app.post('/api/image-album/delete', (req, res) => {
@@ -135,7 +161,8 @@ module.exports = (app) => {
       Bucket: "ccc-project-3-sandbox",
       ContentEncoding: 'base64',
       ContentType: 'image/jpeg',
-      Key: sampleFile
+      Key: sampleFile,
+      ACL:'public-read-write'
     };
 
     // s3 upload method
@@ -162,7 +189,7 @@ module.exports = (app) => {
           if (err) {
             console.log(err, err.stack)
           } else {
-            console.log("image uploaded to s3!")
+            console.log("Image sent to Rekognition")
 
             var tags = [];
             let length = Math.min(5, res.Labels.length);
