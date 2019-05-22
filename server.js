@@ -1,37 +1,45 @@
-// npm scripts:
-// server: npm run server
-// client: npm run client
-// both:   npm run dev
-
 const express = require('express');
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
+const mongoose = require('mongoose');
 
+// var AWS = require('aws-sdk');
+// AWS.config.update({region:'us-east-1'});
 
 const app = express();
 
-app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
-app.use(bodyParser.json());
+
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+}));
+app.use(fileUpload());
+
+mongoose.Promise = Promise;
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/project3";
+
+mongoose.set('useCreateIndex', true)
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+
+const db = mongoose.connection;
+db.on("error", (error) => {
+    console.log("Mongoose Error: ", error);
+});
+db.once("open", () => {
+    console.log("Database Connection Success");
+});
 
 require('./routes/apiRoutes')(app);
-require('./routes/image-upload')(app);
 
-// const imageUploadRoutes = require('./routes/image-upload');
-// app.use('/', imageUploadRoutes);
-
-// React Front-End 
 if(process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'));
-    const path = require('path');
-    app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-    });
-  };
-
-const PORT = process.env.PORT || 4000;
-
-app.listen(PORT, () => {
-      console.log(`listening to port ${PORT}`)
+  app.use(express.static('client/build'));
+  const path = require('path');
+  app.get('*', (req, res) => {
+      res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
+};
 
-  module.exports = app;
+const PORT = process.env.NODE_ENV || 4000;
+app.listen(PORT, () => {
+    console.log(`listening on port ${PORT}`)
+})
