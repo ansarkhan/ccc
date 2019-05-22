@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
-import Uploader from './components/Uploader';
+import Uploader from './components/Uploader/Uploader';
 
 export default class App extends Component {
   
