@@ -1,15 +1,10 @@
-import React from "react";
-import "./SideNav.css";
+import React, { Component } from 'react';
+import "./Sidenav.css";
 
-
-const SideNav = () => (
-//     <div className="sidenav">
-//   <a href="#albums">Albums</a>
-//   <a href="#allpics">All Pictures</a>
-//   <a href="#upload">Upload Pictures</a>
-
-// </div>
-<div className="sidenav">
+export class Sidenav extends Component {
+  render() {
+    return (
+        <div className="sidenav">
 <ul>
   <li><a href="#albums">Albums</a></li>
   <li><a href="#allpics">All Pictures</a></li>
@@ -17,8 +12,9 @@ const SideNav = () => (
   
 </ul>
 </div>
+        
+    )
+  }
+}
 
-
-);
-
-  export default SideNav;
+export default Sidenav
