@@ -16,7 +16,9 @@ export class Uploader extends Component {
             file: file,
             selected: true
         });
+
     };
+
     handleSubmit = (e) => {
       e.preventDefault();
 
@@ -66,4 +68,4 @@ export class Uploader extends Component {
   }
 }
 
-export default Uploader
+export default Uploader;
