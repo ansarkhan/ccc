@@ -1,6 +1,8 @@
 .App {
   text-align: center;
+  
 }
+
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
@@ -21,6 +23,13 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.cassowaryapp{
+  display: flex;
+}
+.cassowarycomponents{
+  margin: 0 auto;
 }
 
 @keyframes App-logo-spin {
