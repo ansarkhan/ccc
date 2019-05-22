@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import './App.css';
 import Uploader from './components/Uploader';
+import Footer from './components/Footer';
+import SideNav from './components/SideNav';
 
 
 
@@ -22,7 +24,10 @@ export default class App extends Component {
 
     return (
       <div>
+         <SideNav />
         <Uploader />
+       
+        <Footer />
       </div>
     );
   }
