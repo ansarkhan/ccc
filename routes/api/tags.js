@@ -5,7 +5,7 @@ const Image = require('../../models/Image');
 const Tag = require('../../models/Tag');
 
 // Add tag to image using image id
-app.post('add/:id', (req, res) => {
+router.post('add/:id', (req, res) => {
     let newTag = new Tag(req.body);
     newTag.save(function (err, doc) {
         if (err) {
@@ -31,7 +31,7 @@ app.post('add/:id', (req, res) => {
 });
 
 // Delete a tag from an image using tag id
-app.post('/api/tag/del/:id', (req, res) => {
+router.post('/api/tag/del/:id', (req, res) => {
     Tag.findByIdAndRemove(req.params.id, (err, tag) => {
         if (err) {
             console.log(err);

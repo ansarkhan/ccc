@@ -5,7 +5,7 @@ const Image = require('../../models/Image');
 const Tag = require('../../models/Tag');
 
 // GET all albums
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
     Album.find({})
         .populate("images")
         .then(function (found) {
@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 });
 
 // GET album with given id
-app.get('/:id', (req, res) => {
+router.get('/:id', (req, res) => {
     Album.findById(req.params.id)
         .populate("images")
         .then(function (found) {
@@ -33,7 +33,7 @@ app.get('/:id', (req, res) => {
 });
 
 // UPDATE name of album with given id
-app.post('/edit/:id', (req, res) => {
+router.post('/edit/:id', (req, res) => {
     console.log(req.body);
     res.send("ok");
 
@@ -54,7 +54,7 @@ app.post('/edit/:id', (req, res) => {
 });
 
 // DELETE album with given id
-app.delete('/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
     Album.findById(req.params.id)
         .populate("images")
         .remove()
@@ -69,7 +69,7 @@ app.delete('/:id', (req, res) => {
 });
 
 // ADD an album to an image
-app.post('add/:id', (req, res) => {
+router.post('add/:id', (req, res) => {
     let newAlbum = new Album(req.body);
     newAlbum.save(function (err, doc) {
         if (err) {
@@ -98,7 +98,7 @@ app.post('add/:id', (req, res) => {
 // Is this to delete an album entirely? 
 // Or to remove the image from that album? 
 // We may end up need both routes actually -- Nolan
-app.post('/api/image-album/delete', (req, res) => {
+router.post('/api/image-album/delete', (req, res) => {
     //find image, delete album
 });
 
