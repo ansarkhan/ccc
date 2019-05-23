@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import './App.css';
 import Footer from './components/Footer/Footer';
 import {BrowserRouter, Route} from 'react-router-dom';
-import Sidenav from './components/Sidenav/Sidenav';
+import Sidenav from './components/SideNav/SideNav';
 import Uploader from './components/Uploader/Uploader';
 import Albums from './components/Albums/Albums';
 import Pictures from './components/Pictures/Pictures';
