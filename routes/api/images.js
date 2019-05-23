@@ -165,7 +165,6 @@ router.post('/', function (req, res) {
                         let tagObject = {
                             "name": res.Labels[i].Name
                         };
-                        console.log('tagObject', tagObject);
                         tags.push(tagObject);
                     }
 
@@ -183,7 +182,7 @@ router.post('/', function (req, res) {
                             // create Image model
                             Image.create(imageObject)
                                 .then(function (dbImage) {
-
+                                    console.log(dbImage);
                                 })
                                 .catch(function (err) {
                                     console.log(err);
