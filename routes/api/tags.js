@@ -4,6 +4,19 @@ const Album = require('../../models/Album');
 const Image = require('../../models/Image');
 const Tag = require('../../models/Tag');
 
+// GET all tags
+router.get('/', (req, res) => {
+    Tag.find({})
+        .then(function (found) {
+            // Throw any errors to the console
+            res.json(found);
+        })
+        // If there are no errors, send the data to the browser as json
+        .catch(function (err) {
+            res.json(err)
+        });
+});
+
 // Add tag to image using image id
 router.post('add/:id', (req, res) => {
     let newTag = new Tag(req.body);
