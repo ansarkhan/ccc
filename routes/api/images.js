@@ -12,7 +12,7 @@ const s3 = new AWS.S3();
 const fs = require('fs');
 
 // GET all images
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
     Image.find({})
         .populate("tags")
         .then(function (found) {
@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 });
 
 // GET image with given id
-app.get('/:id', (req, res) => {
+router.get('/:id', (req, res) => {
     Image.findById(req.params.id)
         .populate("tags")
         .then(function (found) {
@@ -41,7 +41,7 @@ app.get('/:id', (req, res) => {
 
 
 // UPDATE name of image given image id
-app.post('/edit/:id', (req, res) => {
+router.post('/edit/:id', (req, res) => {
     console.log(req.body);
     res.send("ok");
 
@@ -61,7 +61,7 @@ app.post('/edit/:id', (req, res) => {
 });
 
 // DELETE image with given id
-app.delete('/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
     Image.findById(req.params.id, function (err, foundImage) {
         foundImage.populate("tags")
             .exec(function (err, foundTags) {
@@ -93,7 +93,7 @@ app.delete('/:id', (req, res) => {
 // ADD (Upload) an Image
 // Send to Rekognition to create Tags
 // Create/Send Image and Tags to MongoDB
-app.post('/', function (req, res) {
+router.post('/', function (req, res) {
     let sampleFile;
 
     if (Object.keys(req.files).length == 0) {
