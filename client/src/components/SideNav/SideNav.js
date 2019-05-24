@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import "./SideNav.css";
 import {Link} from 'react-router-dom';
 
-export class Sidenav extends Component {
+export class SideNav extends Component {
   render() {
     return (
 //         <div className="custom_sidenav">
@@ -25,4 +25,4 @@ export class Sidenav extends Component {
   }
 }
 
-export default Sidenav
+export default SideNav
