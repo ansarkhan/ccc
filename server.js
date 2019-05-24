@@ -15,6 +15,25 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 app.use(fileUpload());
 
+app.use(function (req, res, next) {
+
+  // Website you wish to allow to connect
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+
+  // Request methods you wish to allow
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+  // Request headers you wish to allow
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+  // Set to true if you need the website to include cookies in the requests sent
+  // to the API (e.g. in case you use sessions)
+  res.setHeader('Access-Control-Allow-Credentials', true);
+
+  // Pass to next layer of middleware
+  next();
+});
+
 mongoose.Promise = Promise;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/project3";
 
@@ -43,3 +62,26 @@ const PORT = process.env.NODE_ENV || 4000;
 app.listen(PORT, () => {
     console.log(`listening on port ${PORT}`)
 })
+
+
+// generateFields = (entity_type, id) => {
+
+//   let fields = entity_type.map((el,ind) =>
+
+//   <Col md="auto" key={id+el.year}>
+//     <Form.Group>
+//     <Form.Label>{el.year}</Form.Label>
+//     <Form.Control
+//     type="number" 
+//     placeholder={entity_type[ind].value}
+//     onChange={this.props.handleChange}
+//     name={el.year}
+//     id={id+el.year}
+//     key={id+el.year}
+//     />
+//     </Form.Group>
+//   </Col>
+
+//   )
+//   return fields
+// }
