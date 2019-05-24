@@ -3,11 +3,10 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const mongoose = require('mongoose');
 
-// var AWS = require('aws-sdk');
-// AWS.config.update({region:'us-east-1'});
+// const AWS = require('aws-sdk');
+// AWS.config.update({ region: 'us-east-1' });
 
 const app = express();
-
 
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -48,7 +47,7 @@ db.once("open", () => {
     console.log("Database Connection Success");
 });
 
-require('./routes/apiRoutes')(app);
+app.use(require('./routes'));
 
 if(process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
