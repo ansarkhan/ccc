@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import "./Sidenav.css";
-import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 
 export class Sidenav extends Component {
   render() {
@@ -14,9 +14,9 @@ export class Sidenav extends Component {
 // </ul>
 // </div>
 <div className="cassowarynav">
-            <Link className="casslink" to="/">Albums</Link>
-            <Link className="casslink" to="/pictures">All Pictures</Link>
-            <Link className="casslink" to="/upload">Upload Pictures</Link>
+            <NavLink className="casslink" exact activeClassName="activelink" to="/">Albums</NavLink>
+            <NavLink className="casslink" exact activeClassName="activelink" to="/pictures">All Pictures</NavLink>
+            <NavLink className="casslink " exact activeClassName="activelink" to="/upload">Upload Pictures</NavLink>
             
             
            </div>
