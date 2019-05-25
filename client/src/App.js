@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import './App.css';
 import Footer from './components/Footer/Footer';
 import {BrowserRouter, Route} from 'react-router-dom';
-import Sidenav from './components/SideNav/SideNav';
+import SideNav from './components/SideNav/SideNav';
 import Uploader from './components/Uploader/Uploader';
 import Albums from './components/Albums/Albums';
 import Pictures from './components/Pictures/Pictures';
@@ -24,7 +24,7 @@ export default class App extends Component {
         <BrowserRouter>
         {/* <Fragment> */}
         <div className="cassowaryapp">
-        <Sidenav />  
+        <SideNav />  
         <div className="cassowarycomponents">
         <Route exact path="/" component={Albums} />
         <Route exact path="/pictures" component={Pictures} />
