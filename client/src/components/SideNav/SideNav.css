@@ -20,15 +20,27 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 200px;
-    background-color: blue;
+    /* background-color: blue; */
+    background-image: linear-gradient(white,  #368BD3);
     /* position: fixed; */
     height: 100vh; 
     overflow: auto; 
+    flex-grow: 1;
+    border-style: solid;
+    border-color: navy;
+    text-align: center;
+
   }
   .casslink{
     display: block;
-    color: white;
+    /* color: #368BD3; */
+    color: navy;
     padding: 8px 16px;
     text-decoration: none;
+
+  }
+  .activelink{
+    
+    text-decoration: underline;
+    text-transform: uppercase;
   }

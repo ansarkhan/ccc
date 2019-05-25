@@ -27,9 +27,17 @@
 
 .cassowaryapp{
   display: flex;
+  max-width: 960px;
+  margin: 50px auto;
+
 }
 .cassowarycomponents{
   margin: 0 auto;
+  flex-grow: 2;
+  text-align: center;
+  border-style: solid;
+  border-color: navy;
+  background-color: white;
 }
 
 @keyframes App-logo-spin {
