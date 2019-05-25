@@ -12,7 +12,7 @@ export class Pictures extends Component {
 
 
   componentDidMount() {
-    axios.get('http://localhost:4000/api/all-images')
+    axios.get('http://localhost:4000/api/images')
     .then(response => {
       // console.log(response.data);
       let res = response.data;
