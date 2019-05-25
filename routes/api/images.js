@@ -197,7 +197,7 @@ router.post('/', function (req, res) {
                                             .then(function(dbAlbum){
                                                 console.log(dbAlbum);
         
-                                                dbImage.updateOne({ _id: dbImage._id }, { $set: { album: dbAlbum } })
+                                                Image.updateOne({ _id: dbImage._id }, { $set: { album: dbAlbum } })
                                                 // dbImage.updateOne({ _id: doc._id }, { $set: { name: 'foo' } })
                                                 
                                                 console.log(dbImage);
@@ -212,7 +212,7 @@ router.post('/', function (req, res) {
 
                                             Album.findOne({}, function(error,dbAlbum) {
                                                 console.log(dbAlbum);
-                                                dbImage.updateOne({ _id: dbImage._id }, { $set: { album: dbAlbum } })
+                                                Image.updateOne({ _id: dbImage._id }, { $set: { album: dbAlbum } })
                                             });
                                         }
                                     });

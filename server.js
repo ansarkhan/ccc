@@ -48,7 +48,7 @@ db.once("open", () => {
 });
 
 // app.use(require('./routes'));
-require('./routes/apiRoutes')(app)
+require('./routes');
 
 if(process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
