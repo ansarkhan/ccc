@@ -1,11 +1,12 @@
 import React from 'react';
 import './Pictures.css';
+import EditPicture from './EditPicture';
 
 const Picture = (props) => {
   return (
     <React.Fragment>
     <div className="image-container col-4 clearfix">
-      <img className="image col" src={props.url} alt="test"></img>
+      <a href={'/api/image/edit/'+props.id}><img className="image col" src={props.url} alt="test"></img></a>
       <p>Name: {props.name.split('.').slice(0, -1).join('.')}</p>
       <p>tags: {props.tags.join(', ')}</p>
       <p>Created at: {props.date} </p>
@@ -33,7 +34,3 @@ __v: 0
 _id: "5ce54bc9ea31e5f597b9857d"
 __proto__: Object
 */
-
-// var paragraph = 'The quick brown fox jumps over the lazy dog. It barked.';
-// var regex = /(.*)\.[^.]+$/;
-// var found = paragraph.match(regex);

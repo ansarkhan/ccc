@@ -59,6 +59,7 @@ module.exports = (app) => {
       });
   });
 
+
   // get image with given id
   app.get('/api/image/:id', (req, res) => {
     Image.findById(req.params.id)

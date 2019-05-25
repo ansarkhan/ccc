@@ -33,6 +33,7 @@ export class Pictures extends Component {
   handleRenderPics = () => {
     return this.state.images.map(el =>
     <Picture 
+    id={el._id}
     url={el.url}
     name={el.name}
     date={el.createdAt}

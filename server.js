@@ -47,7 +47,8 @@ db.once("open", () => {
     console.log("Database Connection Success");
 });
 
-app.use(require('./routes'));
+// app.use(require('./routes'));
+require('./routes/apiRoutes')(app)
 
 if(process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
@@ -61,26 +62,3 @@ const PORT = process.env.NODE_ENV || 4000;
 app.listen(PORT, () => {
     console.log(`listening on port ${PORT}`)
 })
-
-
-// generateFields = (entity_type, id) => {
-
-//   let fields = entity_type.map((el,ind) =>
-
-//   <Col md="auto" key={id+el.year}>
-//     <Form.Group>
-//     <Form.Label>{el.year}</Form.Label>
-//     <Form.Control
-//     type="number" 
-//     placeholder={entity_type[ind].value}
-//     onChange={this.props.handleChange}
-//     name={el.year}
-//     id={id+el.year}
-//     key={id+el.year}
-//     />
-//     </Form.Group>
-//   </Col>
-
-//   )
-//   return fields
-// }
