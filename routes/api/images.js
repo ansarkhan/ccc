@@ -60,35 +60,74 @@ router.post('/edit/:id', (req, res) => {
         });
 });
 
+// // DELETE image with given id - WIP
+// router.delete('/:id', (req, res) => {
+//     Image.findById(req.params.id)
+//         .then(function (dbImage) {
+
+//             // also DELETE tags associated with that image
+//             dbImage.tags.forEach(tag => {
+//                 Tag.findByIdAndDelete(tag)
+//                     .then(function (deletedTag) {
+
+//                         // also DELETE the image id from the album associated with the image
+//                         Album.findByIdAndUpdate(dbImage.album, { $pull: { 'images': { _id: req.params.id } } }, { new: true })
+//                             .then(function (updatedAlbum) {
+//                                 dbImage.remove()
+//                                     .then(function (deletedImage) {
+//                                         res.send("Deleted Image and related tags. removed image from Album");
+//                                     })
+//                                     .catch(function (err) {
+//                                         console.log(err);
+//                                     });
+//                             })
+//                             .catch(function (err) {
+//                                 console.log(err);
+//                             });
+//                     })
+//                     .catch(function (err) {
+//                         console.log(err);
+//                     });
+//             })
+//                 .catch(function (err) {
+//                     console.log(err);
+//                 });
+//         });
+// });
+
 // DELETE image with given id - WIP
 router.delete('/:id', (req, res) => {
-    Image.findById(req.params.id, function (err, foundImage) {
-        foundImage.populate("tags")
-            .exec(function (err, foundTags) {
-                if (err) return handleError(err);
+    Image.findById(req.params.id)
+        .then(function (dbImage) {
 
-                // also DELETE tags associated with that image
-                foundTags.forEach(tag => {
-                    Tag.findByIdAndDelete(tag._id);
+            // also DELETE the image id from the album associated with the image
+            Album.findByIdAndUpdate(dbImage.album, { $pull: { 'images': req.params.id } }, { new: true })
+                .then(function (updatedAlbum) {
+
+                    // also DELETE tags associated with that image
+                    dbImage.tags.forEach(tag => {
+                        Tag.findByIdAndDelete(tag)
+                            .then(function (deletedTag) {
+
+                                dbImage.remove()
+
+                            })
+                            .catch(function (err) {
+                                console.log(err);
+                            });
+                    })
+                })
+                .catch(function (err) {
+                    console.log(err);
                 });
-            });
 
-            foundImage.populate("album")
-            .exec(function (err, foundAlbum) {
-                if (err) return handleError(err);
-
-                // also DELETE the image id from the album associated with the image
-                Album.findByIdAndUpdate(foundAlbum._id), {
-                    $pull: {
-                        'images': {
-                            _id: req.params.id
-                        }
-                    }
-                }, { new: true }
-            });
-
-    }).remove()
+            res.send("Deleted Image and related tags. removed image from Album");
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
 });
+
 
 // ADD (Upload) an Image
 // Send to Rekognition to create Tags
@@ -184,8 +223,8 @@ router.post('/', function (req, res) {
                             Image.create(imageObject)
                                 .then(async function (dbImage) {
 
-                                    Album.count(async function(err, count) {                       
-                                        if( count == 0) {
+                                    Album.count(async function (err, count) {
+                                        if (count == 0) {
                                             console.log("No Found Albums.");
 
                                             let albumObject = {
@@ -194,43 +233,39 @@ router.post('/', function (req, res) {
                                             }
 
                                             Album.create(albumObject)
-                                            .then(async function(dbAlbum){
-                                                console.log(dbAlbum);
-        
-                                                dbImage.album = dbAlbum;
-                                                // Image.updateOne({ _id: dbImage._id }, { $set: { album: dbAlbum } })
+                                                .then(async function (dbAlbum) {
+                                                    console.log(dbAlbum);
 
-                                                await dbImage.save();
-                                                console.log('dbImage stage 1A', dbImage);
-            
-                                            })
-                                            .catch(function (err) {
-                                                console.log(err);
-                                            });
+                                                    dbImage.album = dbAlbum;
+                                                    await dbImage.save();
+                                                    console.log(dbImage);
+
+                                                })
+                                                .catch(function (err) {
+                                                    console.log(err);
+                                                });
                                         }
                                         else {
                                             console.log("Found " + count + " Albums.");
 
-                                            Album.findOne({}, async function(error,dbAlbum) {
+                                            Album.findOne({}, async function (error, dbAlbum) {
                                                 if (err) {
                                                     console.log(err)
                                                 }
                                                 else {
-                                                    // Image.updateOne({ _id: dbImage._id }, { $set: { album: dbAlbum } });
                                                     dbImage.album = dbAlbum;
                                                     await dbImage.save();
-                                                    console.log('dbImage stage 1B', dbImage);
+                                                    console.log(dbImage);
                                                 }
                                             });
                                         }
                                     });
-                                    console.log('dbImage stage 2', dbImage);
                                 })
-                                .catch(async function (err) {
+                                .catch(function (err) {
                                     console.log(err);
                                 })
                         })
-                        .catch(async function (err) {
+                        .catch(function (err) {
                             console.log(err);
                         });
                 }
