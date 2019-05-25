@@ -37,6 +37,8 @@
     color: navy;
     padding: 8px 16px;
     text-decoration: none;
+    font-family: cursive;
+    font-weight: bold;
 
   }
   .activelink{

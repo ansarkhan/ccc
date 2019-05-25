@@ -38,6 +38,9 @@
   border-style: solid;
   border-color: navy;
   background-color: white;
+  font-family: cursive;
+  font-weight: bold;
+  color: navy;
 }
 
 @keyframes App-logo-spin {

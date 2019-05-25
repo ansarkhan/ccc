@@ -2,10 +2,11 @@ import React, { Component, Fragment } from 'react';
 import './App.css';
 import Footer from './components/Footer/Footer';
 import {BrowserRouter, Route} from 'react-router-dom';
-import SideNav from './components/SideNav/SideNav';
+import Sidenav from './components/Sidenav/Sidenav';
 import Uploader from './components/Uploader/Uploader';
 import Albums from './components/Albums/Albums';
 import Pictures from './components/Pictures/Pictures';
+// import Navigation from './components/Navigation/Navigation';
 
 
 
@@ -22,9 +23,12 @@ export default class App extends Component {
     return (
       <div>
         <BrowserRouter>
+        {/* <div className="topnav">
+        <Navigation />
+        </div> */}
         {/* <Fragment> */}
         <div className="cassowaryapp">
-        <SideNav />  
+        <Sidenav />  
         <div className="cassowarycomponents">
         <Route exact path="/" component={Albums} />
         <Route exact path="/pictures" component={Pictures} />

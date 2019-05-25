@@ -1,0 +1,14 @@
+.logo{
+    display: flex;
+    margin-left: 10%;
+    font-size: 20px;
+}
+p{
+    color: white;
+    font-family: cursive;
+    font-weight: bold;
+    float: left;
+}
+.signin{
+    float: right;
+}
