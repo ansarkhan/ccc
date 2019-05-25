@@ -182,9 +182,9 @@ router.post('/', function (req, res) {
 
                             // create Image model
                             Image.create(imageObject)
-                                .then(function (dbImage) {
+                                .then(async function (dbImage) {
 
-                                    Album.count(function(err, count) {                       
+                                    Album.count(async function(err, count) {                       
                                         if( count == 0) {
                                             console.log("No Found Albums.");
 
@@ -194,13 +194,14 @@ router.post('/', function (req, res) {
                                             }
 
                                             Album.create(albumObject)
-                                            .then(function(dbAlbum){
+                                            .then(async function(dbAlbum){
                                                 console.log(dbAlbum);
         
-                                                Image.updateOne({ _id: dbImage._id }, { $set: { album: dbAlbum } })
-                                                // dbImage.updateOne({ _id: doc._id }, { $set: { name: 'foo' } })
-                                                
-                                                console.log(dbImage);
+                                                dbImage.album = dbAlbum;
+                                                // Image.updateOne({ _id: dbImage._id }, { $set: { album: dbAlbum } })
+
+                                                await dbImage.save();
+                                                console.log('dbImage stage 1A', dbImage);
             
                                             })
                                             .catch(function (err) {
@@ -210,19 +211,26 @@ router.post('/', function (req, res) {
                                         else {
                                             console.log("Found " + count + " Albums.");
 
-                                            Album.findOne({}, function(error,dbAlbum) {
-                                                console.log(dbAlbum);
-                                                Image.updateOne({ _id: dbImage._id }, { $set: { album: dbAlbum } })
+                                            Album.findOne({}, async function(error,dbAlbum) {
+                                                if (err) {
+                                                    console.log(err)
+                                                }
+                                                else {
+                                                    // Image.updateOne({ _id: dbImage._id }, { $set: { album: dbAlbum } });
+                                                    dbImage.album = dbAlbum;
+                                                    await dbImage.save();
+                                                    console.log('dbImage stage 1B', dbImage);
+                                                }
                                             });
                                         }
                                     });
-                                    console.log(dbImage);
+                                    console.log('dbImage stage 2', dbImage);
                                 })
-                                .catch(function (err) {
+                                .catch(async function (err) {
                                     console.log(err);
                                 })
                         })
-                        .catch(function (err) {
+                        .catch(async function (err) {
                             console.log(err);
                         });
                 }
