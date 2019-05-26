@@ -9,7 +9,7 @@ export class SideNav extends Component {
             <NavLink className="casslink" exact activeClassName="activelink" to="/">Albums</NavLink>
             <NavLink className="casslink" exact activeClassName="activelink" to="/pictures">All Pictures</NavLink>
             <NavLink className="casslink " exact activeClassName="activelink" to="/upload">Upload Pictures</NavLink>
-            <p className="side-footer">Copyright 2019 &copy; - Cassowary Coding</p>
+            <p className="side-footer indigo white-text">Copyright 2019 &copy; - Cassowary Coding</p>
             
             
 </div>

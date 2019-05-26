@@ -61,7 +61,7 @@ export class Uploader extends Component {
         accept="image/*"
         onChange= {this.handleChange} />
         <label htmlFor="fileName">Choose a file</label>
-        <button type="submit" className="btn">Upload</button>
+        <button type="submit" className="btn indigo">Upload</button>
       </form>
 
       {this.renderFiles()}

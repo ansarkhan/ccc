@@ -5,6 +5,13 @@
   text-align: center;
   
 }
+#root > div {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(#368BD3, white);
+}
 
 
 .App-logo {
@@ -15,7 +22,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 95vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,6 +39,8 @@
   display: flex;
   max-width: 1200px;
   margin: 0px auto;
+  height: 95vh;
+  flex-grow: 1;
 
 }
 .cassowarycomponents{
@@ -43,7 +52,7 @@
   background-color: white;
   flex-basis: 50%;
   overflow: scroll;
-  height: 100vh;
+  height: auto;
 }
 .cassowarycomponents::-webkit-scrollbar {
   width: 0 !important;
