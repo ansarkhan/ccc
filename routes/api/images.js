@@ -16,10 +16,8 @@ router.get('/', (req, res) => {
     Image.find({})
         .populate("tags")
         .then(function (found) {
-            // Throw any errors to the console
             res.json(found);
         })
-        // If there are no errors, send the data to the browser as json
         .catch(function (err) {
             res.json(err)
         });
@@ -30,10 +28,8 @@ router.get('/:id', (req, res) => {
     Image.findById(req.params.id)
         .populate("tags")
         .then(function (found) {
-            // Throw any errors to the console
             res.json(found);
         })
-        // If there are no errors, send the data to the browser as json
         .catch(function (err) {
             res.json(err)
         });
@@ -43,7 +39,6 @@ router.get('/:id', (req, res) => {
 // UPDATE name of image given image id
 router.post('/edit/:id', (req, res) => {
     console.log(req.body);
-    res.send("ok");
 
     Image.findByIdAndUpdate(req.params.id, {
         $set: { name: req.body.name_new }
@@ -55,60 +50,31 @@ router.post('/edit/:id', (req, res) => {
                 res.status(500);
             } else {
 
+                res.send("updated name of image");
 
             }
         });
 });
 
-// // DELETE image with given id - WIP
-// router.delete('/:id', (req, res) => {
-//     Image.findById(req.params.id)
-//         .then(function (dbImage) {
+// TODO:
+// UPDATE album of image given image id
 
-//             // also DELETE tags associated with that image
-//             dbImage.tags.forEach(tag => {
-//                 Tag.findByIdAndDelete(tag)
-//                     .then(function (deletedTag) {
 
-//                         // also DELETE the image id from the album associated with the image
-//                         Album.findByIdAndUpdate(dbImage.album, { $pull: { 'images': { _id: req.params.id } } }, { new: true })
-//                             .then(function (updatedAlbum) {
-//                                 dbImage.remove()
-//                                     .then(function (deletedImage) {
-//                                         res.send("Deleted Image and related tags. removed image from Album");
-//                                     })
-//                                     .catch(function (err) {
-//                                         console.log(err);
-//                                     });
-//                             })
-//                             .catch(function (err) {
-//                                 console.log(err);
-//                             });
-//                     })
-//                     .catch(function (err) {
-//                         console.log(err);
-//                     });
-//             })
-//                 .catch(function (err) {
-//                     console.log(err);
-//                 });
-//         });
-// });
-
-// DELETE image with given id - WIP
+// DELETE image with given id
 router.delete('/:id', (req, res) => {
     Image.findById(req.params.id)
         .then(function (dbImage) {
 
-            // also DELETE the image id from the album associated with the image
+            // DELETE the image id from the album associated with the image
             Album.findByIdAndUpdate(dbImage.album, { $pull: { 'images': req.params.id } }, { new: true })
                 .then(function (updatedAlbum) {
 
-                    // also DELETE tags associated with that image
+                    // also DELETE tags associated with that image from the DB
                     dbImage.tags.forEach(tag => {
                         Tag.findByIdAndDelete(tag)
                             .then(function (deletedTag) {
 
+                                // Now DELETE image after removing tags
                                 dbImage.remove()
 
                             })
@@ -121,7 +87,7 @@ router.delete('/:id', (req, res) => {
                     console.log(err);
                 });
 
-            res.send("Deleted Image and related tags. removed image from Album");
+            res.send("Deleted Image and related tags. Removed image from album");
         })
         .catch(function (err) {
             console.log(err);
