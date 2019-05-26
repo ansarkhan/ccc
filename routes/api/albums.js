@@ -9,10 +9,8 @@ router.get('/', (req, res) => {
     Album.find({})
         .populate("images")
         .then(function (found) {
-            // Throw any errors to the console
             res.json(found);
         })
-        // If there are no errors, send the data to the browser as json
         .catch(function (err) {
             res.json(err)
         });
@@ -23,10 +21,8 @@ router.get('/:id', (req, res) => {
     Album.findById(req.params.id)
         .populate("images")
         .then(function (found) {
-            // Throw any errors to the console
             res.json(found);
         })
-        // If there are no errors, send the data to the browser as json
         .catch(function (err) {
             res.json(err)
         });
@@ -35,7 +31,6 @@ router.get('/:id', (req, res) => {
 // UPDATE name of album with given id
 router.post('/edit/:id', (req, res) => {
     console.log(req.body);
-    res.send("ok");
 
     Album.findByIdAndUpdate(req.params.id, {
         $set: { name: req.body.name_new }
@@ -46,28 +41,58 @@ router.post('/edit/:id', (req, res) => {
                 console.log(error);
                 res.status(500);
             } else {
-
+                res.send("updated name of album");
 
             }
         });
 
 });
 
+// TODO: 
 // DELETE album with given id
 router.delete('/:id', (req, res) => {
+
     Album.findById(req.params.id)
-        .populate("images")
-        .remove()
-        .then(function (found) {
-            // Throw any errors to the console
-            res.json(found);
+        .then(async function (dbAlbum) {
+
+            Image.find({ album: dbAlbum }, async function(err, dbImages) {
+
+                dbImages.forEach(image => {
+
+                    Image.findById(image)
+                        .then(async function (dbImage) {
+
+                            // DELETE tags associated with each image of the album
+                            dbImage.tags.forEach(tag => {
+                                Tag.findByIdAndDelete(tag)
+                                    .then(async function (deletedTag) {
+                                    })
+                                    .catch(function (err) {
+                                        console.log(err);
+                                    });
+                            });
+
+                            // Also DELETE image after removing tags
+                            await dbImage.remove();
+
+                        })
+                        .catch(function (err) {
+                            console.log(err);
+                        });
+                });
+            });
+
+            // Now DELETE album after removing images
+            await dbAlbum.remove();
+
+            res.send("Deleted Album and related images/tags. Removed image from album");
         })
-        // If there are no errors, send the data to the browser as json
         .catch(function (err) {
-            res.json(err)
+            console.log(err);
         });
 });
 
+// TODO:
 // ADD an album to an image
 router.post('add/:id', (req, res) => {
     let newAlbum = new Album(req.body);
@@ -93,14 +118,5 @@ router.post('add/:id', (req, res) => {
     });
 
 });
-
-// TODO:
-// Is this to delete an album entirely? 
-// Or to remove the image from that album? 
-// We may end up need both routes actually -- Nolan
-router.post('/api/image-album/delete', (req, res) => {
-    //find image, delete album
-});
-
 
 module.exports = router;
