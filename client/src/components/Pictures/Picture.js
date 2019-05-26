@@ -1,17 +1,25 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import './Pictures.css';
-import EditPicture from './EditPicture';
+import {Link} from 'react-router-dom'
+import moment from 'moment';
 
 const Picture = (props) => {
+
   return (
-    <React.Fragment>
-    <div className="image-container col-4 clearfix">
-      <a href={'/api/image/edit/'+props.id}><img className="image col" src={props.url} alt="test"></img></a>
-      <p>Name: {props.name.split('.').slice(0, -1).join('.')}</p>
-      <p>tags: {props.tags.join(', ')}</p>
-      <p>Created at: {props.date} </p>
+    <Fragment>
+    <div className="image-container clearfix row border-bottom">
+      <div className="col s6">
+          <img className="image" src={props.url} /> 
+          <Link
+          to={`/api/image/edit/${props.id}`}>Edit and View</Link>
+      </div>
+      <div className="col s6">
+        <p>Name: {props.name.split('.').slice(0, -1).join('.')}</p>
+        <p>tags: {props.tags.join(', ')}</p>
+        <p>Uploaded: { moment(props.date).format('LLLL')} </p>
+      </div>
     </div>
-    </React.Fragment>
+    </Fragment>
   )
 }
 

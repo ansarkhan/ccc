@@ -47,8 +47,8 @@ db.once("open", () => {
     console.log("Database Connection Success");
 });
 
-// app.use(require('./routes'));
-require('./routes');
+app.use(require('./routes'));
+// require('./routes');
 
 if(process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));

@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import './Pictures.css';
-import axios from 'axios';
-import {Container, Col, Row} from 'react-bootstrap';
 
 
 const EditPicture = (props) => {
+  console.log(props)
   return (
     <div>
-      
+      <h1>Edit</h1>
     </div>
   )
 }

@@ -11,7 +11,7 @@ export class SideNav extends Component {
             <NavLink className="casslink " exact activeClassName="activelink" to="/upload">Upload Pictures</NavLink>
             
             
-           </div>
+</div>
         
     )
   }

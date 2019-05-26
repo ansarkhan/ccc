@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {Container, Col, Row} from 'react-bootstrap';
 import Picture from './Picture';
 import "./Pictures.css"
 
@@ -12,18 +11,13 @@ export class Pictures extends Component {
 
 
   componentDidMount() {
-    axios.get('http://localhost:4000/api/all-images')
+    axios.get('/api/images')
     .then(response => {
-      // console.log(response.data);
       let res = response.data;
-
 
       this.setState({
         images: res
-      })
-
-      console.log('saved to state')
-      
+      })      
     })
     .catch(error => {
       console.log(error);
@@ -41,14 +35,13 @@ export class Pictures extends Component {
       tag.name
     )}
     />
+    
     )
   }
 
-
-
   render() {
     return (
-      <div className="row">
+      <div className="container">
         {this.handleRenderPics()}
       </div>
     )

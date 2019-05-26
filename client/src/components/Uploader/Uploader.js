@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import axios from 'axios';
 import './Uploader.css';
 
@@ -24,15 +24,18 @@ export class Uploader extends Component {
 
       if(this.state.file === '') {
        this.setState({selected: false})
+
       } else {
         
         const formData = new FormData();
         formData.append('myImage',this.state.file);
         const config = {
             headers: { 'content-type': 'multipart/form-data' }
-        }
-        axios.post('/api/images', formData, config)
-      }
+        };
+        axios.post('/api/images', formData, config);
+        this.props.history.push('/pictures');
+      };
+      
     };
     renderFiles = () => {
       if(this.state.selected === false) {
