@@ -1,8 +1,7 @@
 import React, {Fragment} from 'react';
 import './Pictures.css';
-import {Link, Route, withRouter} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import moment from 'moment';
-import EditPicture from './EditPicture'
 
 
 const Picture = (props) => {
@@ -11,16 +10,13 @@ const Picture = (props) => {
     <Fragment>
     <div className="image-container clearfix row border-bottom">
       <div className="col s6">
-          <img className="image" src={props.url} /> 
+          <img className="image" src={props.url} alt={props.name} /> 
             <Link to={`/api/image/edit/${props.id}`}> View and Edit </Link>
-
-          {/* <Link
-          to={`/api/image/edit/${props.id}`}>View and Edit</Link> */}
       </div>
       <div className="col s6">
-        <p>Name: {props.name.split('.').slice(0, -1).join('.')}</p>
-        <p>tags: {props.tags.join(', ')}</p>
-        <p>Uploaded: { moment(props.date).format('LLLL')} </p>
+        <p> <strong>Name:</strong> {props.name} </p>
+        <p> <strong>tags:</strong> {props.tags.join(', ')}</p>
+        <p> <strong>Uploaded:</strong> { moment(props.date).format('LLLL')} </p>
       </div>
     </div>
     </Fragment>

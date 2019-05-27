@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import './App.css';
-import Footer from './components/Footer/Footer';
+// import Footer from './components/Footer/Footer';
 import {BrowserRouter, Route} from 'react-router-dom';
 import SideNav from './components/SideNav/SideNav';
 import Uploader from './components/Uploader/Uploader';
-import Albums from './components/Albums/Albums';
+// import Albums from './components/Albums/Albums';
 import Pictures from './components/Pictures/Pictures';
 import EditPicture from './components/Pictures/EditPicture';
 // import axios from 'axios';
@@ -16,7 +16,7 @@ export default class App extends Component {
   };
 
   
-  async componentWillMount() {
+  async componentDidMount() {
     let res = await fetch('/api/images');
     let data = await res.json();
     this.setState({
