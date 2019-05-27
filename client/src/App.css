@@ -37,19 +37,20 @@
 
 .cassowaryapp{
   display: flex;
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0px auto;
   height: 95vh;
   flex-grow: 1;
 
 }
 .cassowarycomponents{
+  position: relative;
   margin: 0 auto;
   flex-grow: 2;
   text-align: center;
   /* border-style: solid;
   border-color: navy; */
-  background-color: white;
+  background: linear-gradient(to right, #f8f1ff 0%,#ffffff 100%);
   flex-basis: 50%;
   overflow: scroll;
   height: auto;
