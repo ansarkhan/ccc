@@ -1,32 +1,33 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Picture from './Picture';
-import "./Pictures.css"
+import "./Pictures.css";
 
 export class Pictures extends Component {
   state = {
-    images: [],
-    tags: []
+    images: this.props.pictures,
+    
   }
 
 
-  componentDidMount() {
-    axios.get('/api/images')
-    .then(response => {
-      let res = response.data;
+  // componentDidMount() {
+  //   axios.get('/api/images')
+  //   .then(response => {
+  //     let res = response.data;
 
-      this.setState({
-        images: res
-      })      
-    })
-    .catch(error => {
-      console.log(error);
-    });
-  }
+  //     this.setState({
+  //       images: res
+  //     })      
+  //   })
+  //   .catch(error => {
+  //     console.log(error);
+  //   });
+  // }
 
   handleRenderPics = () => {
     return this.state.images.map(el =>
-    <Picture 
+    <Picture
+    key={el._id} 
     id={el._id}
     url={el.url}
     name={el.name}

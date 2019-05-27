@@ -1,7 +1,9 @@
 import React, {Fragment} from 'react';
 import './Pictures.css';
-import {Link} from 'react-router-dom'
+import {Link, Route, withRouter} from 'react-router-dom'
 import moment from 'moment';
+import EditPicture from './EditPicture'
+
 
 const Picture = (props) => {
 
@@ -10,8 +12,10 @@ const Picture = (props) => {
     <div className="image-container clearfix row border-bottom">
       <div className="col s6">
           <img className="image" src={props.url} /> 
-          <Link
-          to={`/api/image/edit/${props.id}`}>Edit and View</Link>
+            <Link to={`/api/image/edit/${props.id}`}> View and Edit </Link>
+
+          {/* <Link
+          to={`/api/image/edit/${props.id}`}>View and Edit</Link> */}
       </div>
       <div className="col s6">
         <p>Name: {props.name.split('.').slice(0, -1).join('.')}</p>
@@ -23,7 +27,7 @@ const Picture = (props) => {
   )
 }
 
-export default Picture
+export default withRouter(Picture)
 
 /*
 0:
