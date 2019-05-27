@@ -8,30 +8,19 @@ export class EditPicture extends Component {
     imageUrl: ''
   }
   componentDidMount() {
-    let id = Object.values(this.props.match.params)[0];
-    let pictures = this.props.pictures;
-    pictures.filter(m => {
-      let name = m.name;
-      let url = m.url
-      if(id === m._id) {
-        console.log(m)
+    let {name, url} = this.props.picture;
         this.setState({ imageName: name, imageUrl: url });
-      }
-      return;
-    });
-    
     this.renderImg();
 
   };
 
   renderImg = () => {
-    // return this.state.singleImg.map(img => {
+    let {name, url} = this.props.picture;
       return (
         <div className="Edit">
-          <img className="Edit-img" src={this.state.imageUrl} alt={this.state.imageName}/>
+          <img className="Edit-img" src={url} alt={name}/>
         </div>
       )
-    // })
   };
 
   handleSubmit = async (e) => {
