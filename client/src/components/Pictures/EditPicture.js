@@ -14,6 +14,7 @@ export class EditPicture extends Component {
       let name = m.name;
       let url = m.url
       if(id === m._id) {
+        console.log(m)
         this.setState({ imageName: name, imageUrl: url });
       }
     });

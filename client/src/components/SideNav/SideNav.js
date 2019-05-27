@@ -6,9 +6,9 @@ export class SideNav extends Component {
   render() {
     return (    
 <div className="cassowarynav">
-            <NavLink className="casslink" exact activeClassName="activelink" to="/">Albums</NavLink>
+            <NavLink className="casslink " exact activeClassName="activelink" to="/">Upload Pictures</NavLink>
+            {/* <NavLink className="casslink" exact activeClassName="activelink" to="/">Albums</NavLink> */}
             <NavLink className="casslink" exact activeClassName="activelink" to="/pictures">All Pictures</NavLink>
-            <NavLink className="casslink " exact activeClassName="activelink" to="/upload">Upload Pictures</NavLink>
             <p className="side-footer indigo white-text">Copyright 2019 &copy; - Cassowary Coding</p>
             
             
