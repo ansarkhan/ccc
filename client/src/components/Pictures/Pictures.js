@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import Picture from './Picture';
 import "./Pictures.css";
 
 export class Pictures extends Component {
   state = {
     images: this.props.pictures,
-    
   }
 
 

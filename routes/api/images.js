@@ -41,7 +41,7 @@ router.post('/:id', (req, res) => {
     console.log(req.body);
 
     Image.findByIdAndUpdate(req.params.id, {
-        $set: { name: req.body.name_new }
+        $set: { name: req.body.name }
     },
         { new: true },
         function (error, doc, lastErrorObject) {

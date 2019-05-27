@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import axios from 'axios';
 import './Edit.css'
 
 export class EditPicture extends Component {
@@ -7,7 +8,6 @@ export class EditPicture extends Component {
     imageUrl: ''
   }
   componentDidMount() {
-    let newImageArr = [];
     let id = Object.values(this.props.match.params)[0];
     let pictures = this.props.pictures;
     pictures.filter(m => {
@@ -17,11 +17,13 @@ export class EditPicture extends Component {
         console.log(m)
         this.setState({ imageName: name, imageUrl: url });
       }
+      return;
     });
     
     this.renderImg();
 
   };
+
   renderImg = () => {
     // return this.state.singleImg.map(img => {
       return (
@@ -31,37 +33,56 @@ export class EditPicture extends Component {
       )
     // })
   };
-  handleSaved = () => {
-    console.log('saved')
-  }
+
+  handleSubmit = async (e) => {
+    e.preventDefault();
+    let id = Object.values(this.props.match.params)[0];
+    let url = `/api/images/${id}`;
+    let obj = {
+      "name": this.state.imageName
+    }
+    console.log(obj)
+
+    await axios.post(url, obj);
+    this.props.history.push('/');
+    setTimeout(() => {
+      window.location.reload()
+    }, 500);
+
+  };
+
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
     })
-  }
+  };
+
   render() {
-    console.log(this.state)    
     return (
       <Fragment>
         <h1 className="indigo-text">View & Edit</h1>
         {this.renderImg()}
-        <button 
-        className="btn-floating btn-large indigo custom_btn pulse" 
-        onClick={this.handleSaved}
-        type="submit" 
-        name="action">
-          <i className="large material-icons">save</i>
-        </button>
-        <div class="input-field col s12">
+        <div className="input-field col s12">
+          <form 
+          onSubmit={this.handleSubmit}>
+
         <input 
         id="imageName"
         type="text"
         name="imageName"
         value={this.state.imageName}
         onChange={this.handleChange}
-        autocomplete="off"
+        autoComplete="off"
         />    
-        <label for="imageName">Image Name</label>
+        <label htmlFor="imageName">Image Name</label>
+        <button 
+        className="btn-floating btn-large indigo custom_btn pulse" 
+        onClick={this.handleSaved}
+        type="submit" 
+        name="action">
+        <i className="large material-icons">save</i>
+        </button>
+        </form>
       
         </div>
        

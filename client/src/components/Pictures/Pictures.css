@@ -23,3 +23,12 @@
   .border-bottom {
     border-bottom: 1px solid lightgrey;
   }
+  .custom-logo {
+    width: 90px;
+    align-self: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 50px;
+
+  }
