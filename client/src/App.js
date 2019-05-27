@@ -16,7 +16,7 @@ export default class App extends Component {
   };
 
   
-  async componentDidMount() {
+  async componentWillMount() {
     let res = await fetch('/api/images');
     let data = await res.json();
     this.setState({
@@ -33,11 +33,10 @@ export default class App extends Component {
           <div className="cassowaryapp">
           <SideNav />  
           <div className="cassowarycomponents">
-          <Route exact path="/" component={Albums} />
+          {/* <Route exact path="/" component={Albums} /> */}
           <Route exact path="/pictures" render={() => <Pictures pictures={this.state.images} />} />
-          <Route exact path="/upload" component={Uploader} />
+          <Route exact path="/" component={Uploader} />
           <Route exact path='/api/image/edit/:id' render={(routeProps) => <EditPicture pictures={this.state.images} {...routeProps} />} />
-          {/* <Route exact path={`/api/image/edit/:id`} component={EditPicture}/> */}
 
           </div>
         </div>
