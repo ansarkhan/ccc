@@ -45,6 +45,16 @@ export class EditPicture extends Component {
       [e.target.name]: e.target.value
     })
   };
+  handleDelete = async (e) => {
+    e.preventDefault();
+    let id = Object.values(this.props.match.params)[0];
+    let url = `/api/images/${id}`;
+    await axios.delete(url);
+    this.props.history.push('/');
+    setTimeout(() => {
+      window.location.reload()
+    }, 500);
+  }
 
   render() {
     return (
@@ -52,26 +62,34 @@ export class EditPicture extends Component {
         <h1 className="indigo-text">View & Edit</h1>
         {this.renderImg()}
         <div className="input-field col s12">
-          <form 
-          onSubmit={this.handleSubmit}>
-
-        <input 
-        id="imageName"
-        type="text"
-        name="imageName"
-        value={this.state.imageName}
-        onChange={this.handleChange}
-        autoComplete="off"
-        />    
-        <label htmlFor="imageName">Image Name</label>
-        <button 
-        className="btn-floating btn-large indigo custom_btn pulse" 
-        onClick={this.handleSaved}
-        type="submit" 
-        name="action">
-        <i className="large material-icons">save</i>
-        </button>
+            <form 
+              onSubmit={this.handleSubmit}>
+            <input 
+            id="imageName"
+            type="text"
+            name="imageName"
+            value={this.state.imageName}
+            onChange={this.handleChange}
+            autoComplete="off"
+            />    
+            <label htmlFor="imageName">Image Name</label>
+            <button 
+            className="btn-floating btn-large indigo custom_btn pulse" 
+            onClick={this.handleSaved}
+            type="submit" 
+            name="action">
+            <i className="large material-icons">save</i>
+            </button>
         </form>
+        <button
+        className="btn red custom_delete"
+        onClick={e =>
+        window.confirm("Are you sure you wish to delete this picture?") &&
+        this.handleDelete(e)
+    }
+        >
+          Delete
+        </button>
       
         </div>
        

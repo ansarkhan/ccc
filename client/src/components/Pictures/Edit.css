@@ -15,8 +15,13 @@
 }
 .custom_btn {
     position: absolute;
-    top: 25px;
+    top: 0;
     right: 25px;
+}
+.custom_delete {
+    position: absolute;
+    left: 25px;
+    top: 0;
 }
  /* label focus color */
  .input-field {
