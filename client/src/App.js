@@ -45,7 +45,7 @@ export default class App extends Component {
           <Route exact path="/pictures" render={() => <Pictures pictures={this.state.images} />} />
           <Route exact path="/" component={Uploader} />
           {/* <Route exact path='/api/image/edit/:id' render={(routeProps) => <EditPicture pictures={this.state.images} {...routeProps} />} /> */}
-          <Route exact path='/api/image/edit/:id' render={this.getPicture} />
+          <Route exact path='/image/edit/:id' render={this.getPicture} />
 
           </div>
         </div>
