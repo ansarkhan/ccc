@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 });
 
 // Add tag to image using image id
-router.post('add/:id', (req, res) => {
+router.post('/add/:id', (req, res) => {
     let newTag = new Tag(req.body);
     newTag.save(function (err, doc) {
         if (err) {
@@ -34,8 +34,7 @@ router.post('add/:id', (req, res) => {
                         console.log(error);
                         res.status(500);
                     } else {
-
-
+                        res.send("added tag to image");
                     }
                 });
         }
@@ -44,7 +43,7 @@ router.post('add/:id', (req, res) => {
 });
 
 // Delete a tag from an image using tag id
-router.post('/api/tag/del/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
     Tag.findByIdAndRemove(req.params.id, (err, tag) => {
         if (err) {
             console.log(err);

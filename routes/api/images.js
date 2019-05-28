@@ -38,7 +38,6 @@ router.get('/:id', (req, res) => {
 
 // UPDATE name of image given image id
 router.post('/:id', (req, res) => {
-    console.log(req.body);
 
     Image.findByIdAndUpdate(req.params.id, {
         $set: { name: req.body.name }

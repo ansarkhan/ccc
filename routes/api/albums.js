@@ -33,7 +33,7 @@ router.post('/edit/:id', (req, res) => {
     console.log(req.body);
 
     Album.findByIdAndUpdate(req.params.id, {
-        $set: { name: req.body.name_new }
+        $set: { name: req.body.name }
     },
         { new: true },
         function (error, doc, lastErrorObject) {
@@ -48,7 +48,6 @@ router.post('/edit/:id', (req, res) => {
 
 });
 
-// TODO: 
 // DELETE album with given id
 router.delete('/:id', (req, res) => {
 
@@ -90,33 +89,6 @@ router.delete('/:id', (req, res) => {
         .catch(function (err) {
             console.log(err);
         });
-});
-
-// TODO:
-// ADD an album to an image
-router.post('add/:id', (req, res) => {
-    let newAlbum = new Album(req.body);
-    newAlbum.save(function (err, doc) {
-        if (err) {
-            console.log(err);
-            res.status(500);
-        } else {
-            Image.findByIdAndUpdate(req.params.id, {
-                $push: { 'album': doc.id }
-            },
-                { new: true },
-                function (error, doc, lastErrorObject) {
-                    if (error) {
-                        console.log(error);
-                        res.status(500);
-                    } else {
-
-
-                    }
-                });
-        }
-    });
-
 });
 
 module.exports = router;
