@@ -84,7 +84,7 @@ export class EditPicture extends Component {
         <button
         className="btn red custom_delete"
         onClick={e =>
-        window.confirm("Are you sure you wish to delete this picture?") &&
+        window.confirm(`Are you sure you wish to delete ${this.state.imageName}?`) &&
         this.handleDelete(e)
     }
         >

@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 });
 
 // Add tag to image using image id
-router.post('add/:id', (req, res) => {
+router.post('/add/:id', (req, res) => {
     let newTag = new Tag(req.body);
     newTag.save(function (err, doc) {
         if (err) {
