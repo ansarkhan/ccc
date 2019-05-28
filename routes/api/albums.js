@@ -28,6 +28,19 @@ router.get('/:id', (req, res) => {
         });
 });
 
+// ADD (CREATE) new album 
+router.post('/', (req, res) => {
+    let newAlbum = new Album(req.body);
+    newAlbum.save(function (err, doc) {
+        if (err) {
+            console.log(err);
+            res.status(500);
+        } else {
+            res.send("added new Album");
+        }
+    });
+});
+
 // UPDATE name of album with given id
 router.post('/edit/:id', (req, res) => {
     console.log(req.body);
@@ -54,7 +67,7 @@ router.delete('/:id', (req, res) => {
     Album.findById(req.params.id)
         .then(async function (dbAlbum) {
 
-            Image.find({ album: dbAlbum }, async function(err, dbImages) {
+            Image.find({ album: dbAlbum }, async function (err, dbImages) {
 
                 dbImages.forEach(image => {
 
