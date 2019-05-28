@@ -11,7 +11,7 @@ const Picture = (props) => {
     <div className="image-container clearfix row border-bottom">
       <div className="col s6">
           <img className="image" src={props.url} alt={props.name} /> 
-            <Link to={`/api/image/edit/${props.id}`}> View and Edit </Link>
+            <Link to={`/image/edit/${props.id}`}> View and Edit </Link>
       </div>
       <div className="col s6">
         <p> <strong>Name:</strong> {props.name} </p>
