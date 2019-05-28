@@ -28,12 +28,25 @@ router.get('/:id', (req, res) => {
         });
 });
 
+// ADD (CREATE) new album 
+router.post('/', (req, res) => {
+    let newAlbum = new Album(req.body);
+    newAlbum.save(function (err, doc) {
+        if (err) {
+            console.log(err);
+            res.status(500);
+        } else {
+            res.send("added new Album");
+        }
+    });
+});
+
 // UPDATE name of album with given id
 router.post('/edit/:id', (req, res) => {
     console.log(req.body);
 
     Album.findByIdAndUpdate(req.params.id, {
-        $set: { name: req.body.name_new }
+        $set: { name: req.body.name }
     },
         { new: true },
         function (error, doc, lastErrorObject) {
@@ -48,14 +61,13 @@ router.post('/edit/:id', (req, res) => {
 
 });
 
-// TODO: 
 // DELETE album with given id
 router.delete('/:id', (req, res) => {
 
     Album.findById(req.params.id)
         .then(async function (dbAlbum) {
 
-            Image.find({ album: dbAlbum }, async function(err, dbImages) {
+            Image.find({ album: dbAlbum }, async function (err, dbImages) {
 
                 dbImages.forEach(image => {
 
@@ -90,33 +102,6 @@ router.delete('/:id', (req, res) => {
         .catch(function (err) {
             console.log(err);
         });
-});
-
-// TODO:
-// ADD an album to an image
-router.post('add/:id', (req, res) => {
-    let newAlbum = new Album(req.body);
-    newAlbum.save(function (err, doc) {
-        if (err) {
-            console.log(err);
-            res.status(500);
-        } else {
-            Image.findByIdAndUpdate(req.params.id, {
-                $push: { 'album': doc.id }
-            },
-                { new: true },
-                function (error, doc, lastErrorObject) {
-                    if (error) {
-                        console.log(error);
-                        res.status(500);
-                    } else {
-
-
-                    }
-                });
-        }
-    });
-
 });
 
 module.exports = router;

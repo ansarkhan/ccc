@@ -38,7 +38,6 @@ router.get('/:id', (req, res) => {
 
 // UPDATE name of image given image id
 router.post('/:id', (req, res) => {
-    console.log(req.body);
 
     Image.findByIdAndUpdate(req.params.id, {
         $set: { name: req.body.name }
@@ -56,9 +55,39 @@ router.post('/:id', (req, res) => {
         });
 });
 
-// TODO:
 // UPDATE album of image given image id
+// AKA sort image into a new Album
+// Provide the name of the new album to sort the image into
+router.post('/sort/:id', (req, res) => {
 
+    Image.findById(req.params.id)
+        .then(function (dbImage) {
+
+            // DELETE the image id from the previous album associated with the image
+            Album.findByIdAndUpdate(dbImage.album._id, { $pull: { 'images': req.params.id } }, { new: true })
+                .then(function (prevAlbum) {
+
+                    // Find album with req.body.name and add the image to it. 
+                    Album.findOneAndUpdate({ name: req.body.name }, { $push: { 'images': req.params.id } }, { new: true })
+                        .then(async function (newAlbum) {
+
+                            // UPDATE Image's album to the new album
+                            dbImage.album = newAlbum;
+                            await dbImage.save();
+                            res.send("sorted image into new album");
+                        })
+                        .catch(function (err) {
+                            console.log(err);
+                        })
+                })
+                .catch(function (err) {
+                    console.log(err);
+                })
+        })
+        .catch(function (err) {
+            console.log(err);
+        })
+});
 
 // DELETE image with given id
 router.delete('/:id', (req, res) => {
@@ -200,11 +229,11 @@ router.post('/', function (req, res) {
 
                                             Album.create(albumObject)
                                                 .then(async function (dbAlbum) {
-                                                    console.log(dbAlbum);
+                                                    console.log('dbAlbum', dbAlbum);
 
                                                     dbImage.album = dbAlbum;
                                                     await dbImage.save();
-                                                    console.log(dbImage);
+                                                    console.log('dbImage', dbImage);
 
                                                 })
                                                 .catch(function (err) {
