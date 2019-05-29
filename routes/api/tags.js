@@ -17,64 +17,61 @@ router.get('/', (req, res) => {
         });
 });
 
-
-// OLD -- ONLY ADDS SINGLE TAG
-// // ADD tag to image using image id
-// router.post('/add/:id', (req, res) => {
-//     let newTag = new Tag(req.body);
-//     newTag.save(function (err, doc) {
-//         if (err) {
-//             console.log(err);
-//             res.status(500);
-//         } else {
-//             Image.findByIdAndUpdate(req.params.id, {
-//                 $push: { 'tags': doc.id }
-//             },
-//                 { new: true },
-//                 function (error, doc, lastErrorObject) {
-//                     if (error) {
-//                         console.log(error);
-//                         res.status(500);
-//                     } else {
-//                         res.send("added tag to image");
-//                     }
-//                 });
-//         }
-//     });
-
-// });
-
-// NEW -- ADDS MULTIPLE TAGS
-// ADD tag to image using image id
+// UPDATE MULTIPLE TAGS
+// ADD/UPDATE tags to image using image id
 router.post('/add/:id', (req, res) => {
-    let array = req.body.tags.split(",");
-    for (let i = 0; i < array.length; i++) {
-        let tagObject = {
-            "name": array[i]
-        }
-        console.log('tagObject',tagObject);
-        let newTag = new Tag(tagObject);
-        console.log('newTag',newTag);
-        newTag.save(function (err, doc) {
-            if (err) {
-                console.log(err);
-                res.status(500);
-            } else {
-                Image.findByIdAndUpdate(req.params.id, {
-                    $set: { 'tags': doc.id }
-                },
-                    { new: true },
-                    function (error, doc, lastErrorObject) {
-                        if (error) {
-                            console.log(error);
-                            res.status(500);
-                        }
-                    });
-            }
-        });
-    }
+    Image.findById(req.params.id)
+        .then(async function (dbImage) {
 
-    res.send("added tags to image");
+            // DELETE tags associated with that image from the DB
+            dbImage.tags.forEach(tag => {
+                Image.findByIdAndUpdate(req.params.id, {$pull: { 'tags': tag }},{ new: true })
+                .then(function (updatedImage){
+                    Tag.findByIdAndDelete(tag)
+                    .then(function (deletedTag) {
+
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                    });
+                })
+                .catch(function (err) {
+                    console.log(err);
+                });
+            });
+
+            await dbImage.save();
+
+            // ADD new tags from the front-end to image in the DB 
+            let array = req.body.tags.split(",");
+            for (let i = 0; i < array.length; i++) {
+                let tagObject = {
+                    "name": array[i]
+                }
+                // console.log('tagObject', tagObject);
+                let newTag = new Tag(tagObject);
+                // console.log('newTag', newTag);
+                newTag.save(function (err, doc) {
+                    if (err) {
+                        console.log(err);
+                        res.status(500);
+                    } else {
+                        Image.findByIdAndUpdate(req.params.id, {
+                            $push: { 'tags': doc.id }
+                        },
+                            { new: true },
+                            function (error, doc, lastErrorObject) {
+                                if (error) {
+                                    console.log(error);
+                                    res.status(500);
+                                }
+                            });
+                    }
+                });
+            }
+        })
+
+    res.send("updated image's tags");
 });
 
 // DELETE tag from an image using tag id
