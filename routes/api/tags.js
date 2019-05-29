@@ -61,7 +61,7 @@ router.post('/add/:id', (req, res) => {
                 res.status(500);
             } else {
                 Image.findByIdAndUpdate(req.params.id, {
-                    $push: { 'tags': doc.id }
+                    $set: { 'tags': doc.id }
                 },
                     { new: true },
                     function (error, doc, lastErrorObject) {
