@@ -41,7 +41,7 @@ export class EditPicture extends Component {
     this.props.history.push('/');
     setTimeout(() => {
       window.location.reload()
-    }, 500);
+    }, 700);
     this.submitTag();
 
   };

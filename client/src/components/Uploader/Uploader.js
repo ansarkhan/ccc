@@ -36,7 +36,7 @@ export class Uploader extends Component {
         this.props.history.push('/');
         setTimeout(() => {
           window.location.reload()
-        }, 500);
+        }, 1000);
       };
       
     };
