@@ -12,7 +12,9 @@ import EditPicture from './components/Pictures/EditPicture';
 export default class App extends Component {
   
   state = {
-    images: []
+    images: [],
+    tags: []
+    
   };
 
   
@@ -20,17 +22,25 @@ export default class App extends Component {
     let res = await fetch('/api/images');
     let data = await res.json();
     this.setState({
-      images: data
+      images: data,
+      tags: []
     })   
    
   };
+
 
   getPicture = (props) => {
     let id = props.match.params.id;
     let currentImg = this.state.images.find(
       img => img._id === id
     );
-    return <EditPicture {...props} picture={currentImg} />
+    let tags = [];
+    currentImg.tags.map(t => {
+      return tags.push(t.name)
+    });
+    let noDplTags = [...new Set(tags)];
+    
+    return <EditPicture {...props} picture={currentImg} tags={noDplTags}  />
   }
 
   render() {

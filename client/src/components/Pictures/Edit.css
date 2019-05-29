@@ -14,19 +14,22 @@
     position: relative;
 }
 .custom_btn {
-    position: absolute;
+    /* position: absolute; */
+    float: right;
     top: 0;
     right: 25px;
 }
 .custom_delete {
-    position: absolute;
+    /* position: absolute; */
+    float: left;
     left: 25px;
     top: 0;
+    margin-left: 15px;
 }
  /* label focus color */
- .input-field {
-    margin: 45px auto;
- }
+.input-field {
+    margin: 15px;
+}
  .input-field input[type=text]:focus + label {
     color: #3f51b5;
 }
