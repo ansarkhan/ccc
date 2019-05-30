@@ -42,7 +42,7 @@ router.post('/', (req, res) => {
 });
 
 // UPDATE name of album with given id
-router.post('/edit/:id', (req, res) => {
+router.post('/:id', (req, res) => {
     console.log(req.body);
 
     Album.findByIdAndUpdate(req.params.id, {

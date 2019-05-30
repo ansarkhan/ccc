@@ -10,24 +10,24 @@ export class EditPicture extends Component {
     imageAlbum: this.props.album
   }
   componentDidMount() {
-    let {name, url} = this.props.picture;
-    let noDplTags =  this.props.picture.tags.name;
+    let { name, url } = this.props.picture;
+    let noDplTags = this.props.picture.tags.name;
     console.log(noDplTags)
-        this.setState({ 
-          imageName: name, 
-          imageUrl: url,
-         });
-         console.log(this.props.tags)
+    this.setState({
+      imageName: name,
+      imageUrl: url,
+    });
+    console.log(this.props.tags)
     this.renderImg();
   };
 
   renderImg = () => {
-    let {name, url} = this.props.picture;
-      return (
-        <div className="Edit">
-          <img className="Edit-img" src={url} alt={name}/>
-        </div>
-      )
+    let { name, url } = this.props.picture;
+    return (
+      <div className="Edit">
+        <img className="Edit-img" src={url} alt={name} />
+      </div>
+    )
   };
 
   handleSubmit = async (e) => {
@@ -83,17 +83,17 @@ export class EditPicture extends Component {
     this.handleAlbum()
   };
   handleTags = (e) => {
-   this.setState(st => ({
-    imageTags: st.imageTags
-    }))
-   }
-   handleAlbum = (e) => {
     this.setState(st => ({
-     imageAlbum: st.imageAlbum
-     }))
-    }
+      imageTags: st.imageTags
+    }))
+  }
+  handleAlbum = (e) => {
+    this.setState(st => ({
+      imageAlbum: st.imageAlbum
+    }))
+  }
 
-  
+
   handleDelete = async (e) => {
     e.preventDefault();
     let id = Object.values(this.props.match.params)[0];
@@ -111,64 +111,65 @@ export class EditPicture extends Component {
         <h1 className="indigo-text">View & Edit</h1>
         {this.renderImg()}
         <div className="col s12">
-            <form 
-              onSubmit={this.handleSubmit}>
+          <form
+            onSubmit={this.handleSubmit}>
             <div className="input-field">
-              <input 
-              id="imageName"
-              type="text"
-              name="imageName"
-              value={this.state.imageName}
-              onChange={this.handleChange}
-              autoComplete="off"
-              />    
+              <input
+                id="imageName"
+                type="text"
+                name="imageName"
+                value={this.state.imageName}
+                onChange={this.handleChange}
+                autoComplete="off"
+              />
               <label htmlFor="imageName">Image Name</label>
             </div>
 
             <div className="input-field">
-              <input 
-              id="imageTags"
-              type="text"
-              name="imageTags"
-              value={this.state.imageTags}
-              onChange={this.handleChange}
-              autoComplete="off"
-              />    
+              <input
+                id="imageTags"
+                type="text"
+                name="imageTags"
+                value={this.state.imageTags}
+                onChange={this.handleChange}
+                autoComplete="off"
+              />
               <label htmlFor="imageTags">Add new Tags</label>
             </div>
 
             <div className="input-field">
-              <input 
-              id="imageAlbum"
-              type="text"
-              name="imageAlbum"
-              value={this.state.imageAlbum}
-              onChange={this.handleChange}
-              autoComplete="off"
-              />    
-              <label htmlFor="imageName">Image Name</label>
+              <input
+                id="imageAlbum"
+                type="text"
+                name="imageAlbum"
+                value={this.state.imageAlbum}
+                onChange={this.handleChange}
+                autoComplete="off"
+              />
+              <label htmlFor="imageAlbum">Album</label>
             </div>
 
             <button
-        className="btn red custom_delete"
-        onClick={e =>
-        window.confirm(`Are you sure you wish to delete ${this.state.imageName}?`) &&
-        this.handleDelete(e)
-    }
-        >
-          Delete
-        </button>
-            <button 
-            className="btn-floating btn-large indigo custom_btn pulse" 
-            type="submit" 
-            name="action">
-            <i className="large material-icons">save</i>
+              className="btn red custom_delete"
+              onClick={e =>
+                window.confirm(`Are you sure you wish to delete ${this.state.imageName}?`) &&
+                this.handleDelete(e)
+              }
+            >
+              Delete
             </button>
-      
-        </form>
-      
+            
+            <button
+              className="btn-floating btn-large indigo custom_btn pulse"
+              type="submit"
+              name="action">
+              <i className="large material-icons">save</i>
+            </button>
+
+          </form>
+
         </div>
-       
+
       </Fragment>
     )
   }
