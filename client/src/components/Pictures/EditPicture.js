@@ -65,7 +65,7 @@ export class EditPicture extends Component {
     let albumObj = {
       "name": this.state.imageAlbum
     }
-    console.log('albumObj',albumObj)
+    // console.log('albumObj',albumObj)
     try {
       await axios.post(url_3, albumObj)
     } catch (error) {
