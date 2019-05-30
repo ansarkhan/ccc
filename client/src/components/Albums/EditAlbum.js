@@ -11,7 +11,6 @@ export class EditAlbum extends Component {
         this.setState({
             albumName: name
         });
-
     };
 
     handleSubmit = async (e) => {

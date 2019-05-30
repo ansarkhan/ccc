@@ -6,14 +6,20 @@ export class EditPicture extends Component {
   state = {
     imageName: '',
     imageUrl: '',
-    imageTags: this.props.tags,
-    imageAlbum: this.props.album
+    imageTags: {},
+    imageAlbum: {}
   }
   componentDidMount() {
     let { name, url } = this.props.picture;
+    let noDplTags =  this.props.picture.tags.map(n => {
+      return n.name
+    }).join(',');
+    let thisAlbum = this.props.pictures.album.name;
     this.setState({
       imageName: name,
       imageUrl: url,
+      imageTags: noDplTags,
+      imageAlbum: thisAlbum
     });
     console.log(this.props.tags)
     this.renderImg();
@@ -78,7 +84,9 @@ export class EditPicture extends Component {
       [e.target.name]: e.target.value
     });
     this.handleTags()
+    console.log(this.state.imageTags)
     this.handleAlbum()
+    console.log(this.state.imageAlbum)
   };
   handleTags = (e) => {
     this.setState(st => ({
