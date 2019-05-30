@@ -6,6 +6,7 @@ import SideNav from './components/SideNav/SideNav';
 import Uploader from './components/Uploader/Uploader';
 import Albums from './components/Albums/Albums';
 import Pictures from './components/Pictures/Pictures';
+import AddAlbum from './components/Albums/AddAlbum';
 import EditAlbum from './components/Albums/EditAlbum';
 import EditPicture from './components/Pictures/EditPicture';
 // import axios from 'axios';
@@ -68,6 +69,10 @@ export default class App extends Component {
     return <Pictures pictures={currentImages} />
   }
 
+  addAlbum = (props) => {
+    return <AddAlbum {...props} />
+  }
+
   render() {
 
     return (
@@ -78,7 +83,11 @@ export default class App extends Component {
             <div className="cassowarycomponents">
               {/* <Route exact path="/" component={Albums} /> */}
               <Route exact path="/pictures" render={() => <Pictures pictures={this.state.images} />} />
-              <Route exact path="/albums" render={() => <Albums albums={this.state.albums} />} />
+              <Route exact path="/albums" render={(routeProps) =>
+                <div>
+                  <AddAlbum {...routeProps}/>
+                  <Albums albums={this.state.albums} />
+                </div>} />
               <Route exact path="/" component={Uploader} />
               {/* <Route exact path='/api/images/edit/:id' render={(routeProps) => <EditPicture pictures={this.state.images} {...routeProps} />} /> */}
               <Route exact path='/images/edit/:id' render={this.editPicture} />
