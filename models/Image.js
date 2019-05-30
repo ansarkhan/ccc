@@ -11,7 +11,7 @@ const ImageSchema = new Schema({
     },
     album: { 
         type: Schema.Types.ObjectId, 
-        ref: 'Album' 
+        ref: "Album"
     },
     tags: [{
         type: Schema.Types.ObjectId,

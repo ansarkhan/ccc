@@ -14,7 +14,7 @@ const fs = require('fs');
 // GET all images
 router.get('/', (req, res) => {
     Image.find({})
-        .populate("tags")
+        .populate("tags album")
         .then(function (found) {
             res.json(found);
         })
@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
 // GET image with given id
 router.get('/:id', (req, res) => {
     Image.findById(req.params.id)
-        .populate("tags")
+        .populate("tags album")
         .then(function (found) {
             res.json(found);
         })
@@ -35,6 +35,16 @@ router.get('/:id', (req, res) => {
         });
 });
 
+// GET images with given album id
+router.get('/album/:id', (req, res) => {
+    Image.find({'album': req.params.id})
+        .then(function (foundImages) {
+            res.json(foundImages);
+        })
+        .catch(function (err) {
+            res.json(err)
+        });
+});
 
 // UPDATE name of image given image id
 router.post('/:id', (req, res) => {

@@ -29,12 +29,12 @@ export class Pictures extends Component {
     id={el._id}
     url={el.url}
     name={el.name}
+    album={el.album.name}
     date={el.createdAt}
     tags={el.tags.map(tag =>
       tag.name
     )}
     />
-    
     )
   }
 

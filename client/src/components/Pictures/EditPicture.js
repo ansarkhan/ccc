@@ -6,7 +6,8 @@ export class EditPicture extends Component {
   state = {
     imageName: '',
     imageUrl: '',
-    imageTags: this.props.tags
+    imageTags: this.props.tags,
+    imageAlbum: this.props.album
   }
   componentDidMount() {
     let {name, url} = this.props.picture;

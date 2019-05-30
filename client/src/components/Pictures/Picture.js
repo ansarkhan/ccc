@@ -5,6 +5,7 @@ import moment from 'moment';
 
 
 const Picture = (props) => {
+  
 let noDuplicatesTags = [...new Set(props.tags)]
   return (
     <Fragment>
@@ -16,6 +17,7 @@ let noDuplicatesTags = [...new Set(props.tags)]
       <div className="col s6">
         <p> <strong>Name:</strong> {props.name} </p>
         <p> <strong>tags:</strong> {noDuplicatesTags.join(', ')}</p>
+        <p> <strong>Album:</strong> {props.album} </p>
         <p> <strong>Uploaded:</strong> { moment(props.date).format('LLLL')} </p>
       </div>
     </div>
