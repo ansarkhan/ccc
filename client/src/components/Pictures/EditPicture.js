@@ -44,6 +44,7 @@ export class EditPicture extends Component {
       window.location.reload()
     }, 700);
     this.submitTag();
+    this.submitAlbum();
 
   };
   submitTag = async (e) => {
@@ -58,7 +59,20 @@ export class EditPicture extends Component {
     } catch (error) {
       console.log(error)
     }
+  }
 
+  submitAlbum = async (e) => {
+    let id = Object.values(this.props.match.params)[0];
+    let url_3 = `/api/images/sort/${id}`;
+    let albumObj = {
+      "name": this.state.imageAlbum
+    }
+    console.log(albumObj)
+    try {
+      await axios.post(url_3, albumObj)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   handleChange = (e) => {
@@ -66,13 +80,18 @@ export class EditPicture extends Component {
       [e.target.name]: e.target.value
     });
     this.handleTags()
+    this.handleAlbum()
   };
   handleTags = (e) => {
    this.setState(st => ({
     imageTags: st.imageTags
     }))
-    
    }
+   handleAlbum = (e) => {
+    this.setState(st => ({
+     imageAlbum: st.imageAlbum
+     }))
+    }
 
   
   handleDelete = async (e) => {
@@ -117,6 +136,19 @@ export class EditPicture extends Component {
               />    
               <label htmlFor="imageTags">Add new Tags</label>
             </div>
+
+            <div className="input-field">
+              <input 
+              id="imageAlbum"
+              type="text"
+              name="imageAlbum"
+              value={this.state.imageAlbum}
+              onChange={this.handleChange}
+              autoComplete="off"
+              />    
+              <label htmlFor="imageName">Image Name</label>
+            </div>
+
             <button
         className="btn red custom_delete"
         onClick={e =>
