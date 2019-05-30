@@ -14,7 +14,7 @@ export class EditPicture extends Component {
     let noDplTags =  this.props.picture.tags.map(n => {
       return n.name
     }).join(',');
-    let thisAlbum = this.props.pictures.album.name;
+    let thisAlbum = this.props.album;
     this.setState({
       imageName: name,
       imageUrl: url,
