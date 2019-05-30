@@ -7,14 +7,14 @@ const Album = (props) => {
   return (
     <Fragment>
     <div className="image-container clearfix row border-bottom">
-    <div className="col s6">
-            <Link to={`/albums/edit/${props.id}`}> View </Link>
+    <div className="col s3">
+            <Link to={`/images/album/${props.id}`}> View </Link>
       </div>
-      <div className="col s6">
+      <div className="col s3">
             <Link to={`/albums/edit/${props.id}`}> Edit </Link>
       </div>
       <div className="col s6">
-        <p> <strong>Album Name:</strong> {props.name} </p>
+        <p> <strong>{props.name}</strong></p>
       </div>
     </div>
     </Fragment>

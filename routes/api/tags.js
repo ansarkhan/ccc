@@ -41,7 +41,7 @@ router.post('/add/:id', (req, res) => {
             });
 
             await dbImage.save();
-
+            console.log('req.body',req.body);
             // ADD new tags from the front-end to image in the DB 
             let array = req.body.tags.split(",");
             for (let i = 0; i < array.length; i++) {

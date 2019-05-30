@@ -38,6 +38,7 @@ router.get('/:id', (req, res) => {
 // GET images with given album id
 router.get('/album/:id', (req, res) => {
     Image.find({'album': req.params.id})
+        .populate("tags album")
         .then(function (foundImages) {
             res.json(foundImages);
         })

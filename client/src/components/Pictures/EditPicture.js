@@ -11,8 +11,6 @@ export class EditPicture extends Component {
   }
   componentDidMount() {
     let { name, url } = this.props.picture;
-    let noDplTags = this.props.picture.tags.name;
-    console.log(noDplTags)
     this.setState({
       imageName: name,
       imageUrl: url,
@@ -53,7 +51,7 @@ export class EditPicture extends Component {
     let tagObj = {
       "tags": this.state.imageTags
     }
-    console.log(tagObj)
+    console.log('tagObj',tagObj)
     try {
       await axios.post(url_2, tagObj)
     } catch (error) {
@@ -67,7 +65,7 @@ export class EditPicture extends Component {
     let albumObj = {
       "name": this.state.imageAlbum
     }
-    console.log(albumObj)
+    console.log('albumObj',albumObj)
     try {
       await axios.post(url_3, albumObj)
     } catch (error) {
@@ -158,7 +156,7 @@ export class EditPicture extends Component {
             >
               Delete
             </button>
-            
+
             <button
               className="btn-floating btn-large indigo custom_btn pulse"
               type="submit"
