@@ -1,7 +1,7 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
-const mongoose = require('mongoose');
 const keys = require('./config/keys');
 
 // const AWS = require('aws-sdk');
@@ -39,13 +39,13 @@ mongoose.Promise = Promise;
 mongoose.set('useCreateIndex', true)
 mongoose.connect(keys.mongoURI, { useNewUrlParser: true });
 
-const db = mongoose.connection;
-db.on("error", (error) => {
-    console.log("Mongoose Error: ", error);
-});
-db.once("open", () => {
-    console.log("Database Connection Success");
-});
+// const db = mongoose.connection;
+// db.on("error", (error) => {
+//     console.log("Mongoose Error: ", error);
+// });
+// db.once("open", () => {
+//     console.log("Database Connection Success");
+// });
 
 app.use(require('./routes'));
 // require('./routes');
