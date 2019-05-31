@@ -21,7 +21,6 @@ export class EditPicture extends Component {
       imageTags: noDplTags,
       imageAlbum: thisAlbum
     });
-    console.log(this.props.tags)
     this.renderImg();
   };
 
@@ -84,9 +83,9 @@ export class EditPicture extends Component {
       [e.target.name]: e.target.value
     });
     this.handleTags()
-    console.log(this.state.imageTags)
+    // console.log(this.state.imageTags)
     this.handleAlbum()
-    console.log(this.state.imageAlbum)
+    // console.log(this.state.imageAlbum)
   };
   handleTags = (e) => {
     this.setState(st => ({
@@ -112,6 +111,7 @@ export class EditPicture extends Component {
   }
 
   render() {
+    console.log(this.state)
     return (
       <Fragment>
         <h1 className="indigo-text">View & Edit</h1>
