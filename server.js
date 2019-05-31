@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const mongoose = require('mongoose');
+const keys = require('./config/keys');
 
 // const AWS = require('aws-sdk');
 // AWS.config.update({ region: 'us-east-1' });
@@ -34,10 +35,9 @@ app.use(function (req, res, next) {
 });
 
 mongoose.Promise = Promise;
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/project3";
 
 mongoose.set('useCreateIndex', true)
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+mongoose.connect(keys.mongoURI, { useNewUrlParser: true });
 
 const db = mongoose.connection;
 db.on("error", (error) => {
