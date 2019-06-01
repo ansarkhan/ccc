@@ -39,7 +39,7 @@ export class AddAlbum extends Component {
     render() {
         return (
             <Fragment>
-                <h3 className="indigo-text">Add an Album</h3>
+                <h3 className="indigo-text">All Albums</h3>
                 <div className="col s12">
                     <form
                         onSubmit={this.handleSubmit}>
@@ -52,15 +52,14 @@ export class AddAlbum extends Component {
                                 onChange={this.handleChange}
                                 autoComplete="off"
                             />
-                            <label htmlFor="albumName">Album Name</label>
-                        </div>
-
-                        <button
+                            <label htmlFor="albumName">Add Album</label>
+                            <button
                             className="btn-floating btn-large indigo custom_btn pulse"
                             type="submit"
                             name="action">
                             <i className="large material-icons">save</i>
                         </button>
+                        </div>
 
                     </form>
 

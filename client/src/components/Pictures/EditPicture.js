@@ -21,7 +21,6 @@ export class EditPicture extends Component {
       imageTags: noDplTags,
       imageAlbum: thisAlbum
     });
-    console.log(this.props.tags)
     this.renderImg();
   };
 
@@ -71,7 +70,6 @@ export class EditPicture extends Component {
     let albumObj = {
       "name": this.state.imageAlbum
     }
-    // console.log('albumObj',albumObj)
     try {
       await axios.post(url_3, albumObj)
     } catch (error) {
@@ -84,20 +82,20 @@ export class EditPicture extends Component {
       [e.target.name]: e.target.value
     });
     this.handleTags()
-    console.log(this.state.imageTags)
     this.handleAlbum()
-    console.log(this.state.imageAlbum)
   };
   handleTags = (e) => {
     this.setState(st => ({
       imageTags: st.imageTags
     }))
-  }
+  };
+  // change how the album name is display, because if you change the name to an album that doesn't exist it will give you an error
+  
   handleAlbum = (e) => {
     this.setState(st => ({
       imageAlbum: st.imageAlbum
     }))
-  }
+  };
 
 
   handleDelete = async (e) => {
@@ -109,9 +107,10 @@ export class EditPicture extends Component {
     setTimeout(() => {
       window.location.reload()
     }, 500);
-  }
+  };
 
   render() {
+    console.log(this.state)
     return (
       <Fragment>
         <h1 className="indigo-text">View & Edit</h1>
@@ -144,6 +143,7 @@ export class EditPicture extends Component {
             </div>
 
             <div className="input-field">
+              
               <input
                 id="imageAlbum"
                 type="text"
