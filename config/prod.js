@@ -1,5 +1,5 @@
 module.exports = {
-    awsID: process.env.AWS_ID,
-    awsSECRET: process.env.AWS_SECRET,
+    mongoURI: process.env.MONGODB_URI
+    origin: process.env.ORIGIN
     // awsREGION: process.env.AWS_DEFAULT_REGION
 }
