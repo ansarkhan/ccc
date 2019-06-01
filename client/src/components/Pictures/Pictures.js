@@ -29,6 +29,8 @@ export class Pictures extends Component {
     id={el._id}
     url={el.url}
     name={el.name}
+    // this bug needs to be fixed from when you change the name to an album that doesn't exist yet
+    // an idea is to populate it with a select list in the edit 
     album={el.album.name}
     date={el.createdAt}
     tags={el.tags.map(tag =>

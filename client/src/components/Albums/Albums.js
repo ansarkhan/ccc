@@ -8,6 +8,7 @@ export class Albums extends Component {
   }
 
   handleRenderAlbums = () => {
+    // let randomItem = urls[Math.floor(Math.random()*urls.length)];
     return this.state.albums.map(el =>
     <Album
     key={el._id} 
@@ -25,6 +26,7 @@ export class Albums extends Component {
   }
 
   render() {
+    
     return (
       <div className="container">
         {this.handleRenderAlbums()}

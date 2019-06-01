@@ -68,6 +68,9 @@ export default class App extends Component {
 
     return <Pictures pictures={currentImages} />
   }
+  getAlbumPics = () => {
+    console.log(this.state.albums)
+  }
 
   addAlbum = (props) => {
     return <AddAlbum {...props} />
@@ -86,7 +89,7 @@ export default class App extends Component {
               <Route exact path="/albums" render={(routeProps) =>
                 <div>
                   <AddAlbum {...routeProps}/>
-                  <Albums albums={this.state.albums} />
+                  <Albums albums={this.state.albums} image={this.getAlbumPics()} />
                 </div>} />
               <Route exact path="/" component={Uploader} />
               {/* <Route exact path='/api/images/edit/:id' render={(routeProps) => <EditPicture pictures={this.state.images} {...routeProps} />} /> */}
