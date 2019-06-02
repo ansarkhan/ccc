@@ -22,6 +22,7 @@ export class EditPicture extends Component {
       imageAlbum: thisAlbum
     });
     this.renderImg();
+
   };
 
   renderImg = () => {
@@ -40,7 +41,6 @@ export class EditPicture extends Component {
     let obj = {
       "name": this.state.imageName
     }
-    console.log(obj)
     await axios.post(url, obj);
     this.props.history.push('/');
     setTimeout(() => {
@@ -81,22 +81,21 @@ export class EditPicture extends Component {
     this.setState({
       [e.target.name]: e.target.value
     });
-    this.handleTags()
-    this.handleAlbum()
+    this.handleTags();
+    this.handleAlbum();
   };
+
   handleTags = (e) => {
     this.setState(st => ({
       imageTags: st.imageTags
     }))
   };
-  // change how the album name is display, because if you change the name to an album that doesn't exist it will give you an error
   
   handleAlbum = (e) => {
     this.setState(st => ({
       imageAlbum: st.imageAlbum
     }))
   };
-
 
   handleDelete = async (e) => {
     e.preventDefault();
@@ -110,7 +109,6 @@ export class EditPicture extends Component {
   };
 
   render() {
-    console.log(this.state)
     return (
       <Fragment>
         <h1 className="indigo-text">View & Edit</h1>
@@ -143,18 +141,23 @@ export class EditPicture extends Component {
             </div>
 
             <div className="input-field">
-              
-              <input
-                id="imageAlbum"
-                type="text"
-                name="imageAlbum"
-                value={this.state.imageAlbum}
-                onChange={this.handleChange}
-                autoComplete="off"
-              />
-              <label htmlFor="imageAlbum">Album</label>
-            </div>
 
+              <select 
+              onChange={this.handleChange}
+              name='imageAlbum' 
+              style={{display: 'block'}}>
+              <option value="" disabled selected className="text-hide">Please select
+              </option>
+                  {
+                    this.props.allAlbums.map((a, b) => {
+                  return <option
+                  key={b}
+                  value={a.name}> {a.name} </option>
+                  })
+                  }
+              </select>
+            </div>
+           
             <button
               className="btn red custom_delete"
               onClick={e =>

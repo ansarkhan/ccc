@@ -48,7 +48,7 @@ export default class App extends Component {
 
     let noDplTags = [...new Set(tags)];
 
-    return <EditPicture {...props} picture={currentImg} tags={noDplTags} album={currentImg.album.name} />
+    return <EditPicture {...props} picture={currentImg} tags={noDplTags} album={currentImg.album.name} allAlbums={this.state.albums} />
   }
 
   editAlbum = (props) => {
