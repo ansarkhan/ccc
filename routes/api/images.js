@@ -47,7 +47,7 @@ router.get('/album/:id', (req, res) => {
         });
 });
 
-// GET images by searching tags, names, and albums
+// GET images, searching by tag, image, or album name
 router.get('/search/:name', (req, res) => {
     let nameLowerCase = req.params.name.toString().toLowerCase();
 

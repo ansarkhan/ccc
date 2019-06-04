@@ -24,7 +24,7 @@ export class AddAlbum extends Component {
 
         console.log(obj)
         await axios.post(url, obj);
-        this.props.history.push('/albums');
+        this.props.history.push('/');
         setTimeout(() => {
             window.location.reload()
         }, 700);
