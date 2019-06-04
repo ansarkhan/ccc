@@ -37,10 +37,43 @@ router.get('/:id', (req, res) => {
 
 // GET images with given album id
 router.get('/album/:id', (req, res) => {
-    Image.find({'album': req.params.id})
+    Image.find({ 'album': req.params.id })
         .populate("tags album")
         .then(function (foundImages) {
             res.json(foundImages);
+        })
+        .catch(function (err) {
+            res.json(err)
+        });
+});
+
+// GET images by searching tags, names, and albums
+router.get('/search/:name', (req, res) => {
+    let matches = [];
+    let nameLowerCase = req.params.name.toString().toLowerCase();
+
+    Image.find().populate("tags album")
+        .then(function (dbImages) {
+            dbImages.forEach(dbImage => {
+                console.log('dbImage', dbImage);
+                if (dbImage.name.toString().toLowerCase().contains(nameLowerCase)) {
+                    matches.push(dbImage)
+                }
+                else if (dbImage.album.name.toString().toLowerCase().contains(nameLowerCase)) {
+                    matches.push(dbImage)
+                }
+                else {
+                    dbImage.tags.forEach(dbTag => {
+                        console.log('dbTag', dbTag);
+                        if (dbTag.name.toString().toLowerCase() === req.params.name.toString().toLowerCase()) {
+                            matches.push(dbImage);
+                        }
+                    })
+                }
+            })
+
+            res.json(matches);
+
         })
         .catch(function (err) {
             res.json(err)
