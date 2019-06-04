@@ -58,23 +58,19 @@ router.get('/search/:name', (req, res) => {
                 let matches = [];
                 images.forEach((dbImage, index) => {
                     if (dbImage.name.toString().toLowerCase().includes(nameLowerCase)) {
-                        // console.log('imageName match!', dbImage)
                         matches.push(dbImage)
                     }
                     else if (dbImage.album.name.toString().toLowerCase().includes(nameLowerCase)) {
-                        // console.log('albumName match!', dbImage)
                         matches.push(dbImage)
                     }
                     else {
                         dbImage.tags.forEach(dbTag => {
                             if (dbTag.name.toString().toLowerCase() === req.params.name.toString().toLowerCase()) {
-                                // console.log('tagName match!',dbImage)
                                 matches.push(dbImage);
                             }
                         })
                     }
                 })
-                // console.log('matches',matches);
                 return matches;
             }
 
