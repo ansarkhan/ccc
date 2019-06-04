@@ -9,11 +9,11 @@ Recognicer is a smart online photo library that lets you securely store, filter 
 - Run 'npm run dev' in the root directory
 
 ## Built With
-* [node] (https://nodejs.org/en/) - Backend JS
-* [React] (https://reactjs.org/) - Frontend
-* [Materialize] (https://materializecss.com/) - CSS/HTML framework
-* [MongoDB] (https://www.mongodb.com/) - Database
-* [AWS] (https://aws.amazon.com/) - Using S3 and Rekognition by AWS
+* [node](https://nodejs.org/en/) - Backend JS
+* [React](https://reactjs.org/) - Frontend
+* [Materialize](https://materializecss.com/) - CSS/HTML framework
+* [MongoDB](https://www.mongodb.com/) - Database
+* [AWS](https://aws.amazon.com/) - Using S3 and Rekognition by AWS
 ## Authors
 
 * **Julian, Nolan, Logan, Craig & Ansar**
