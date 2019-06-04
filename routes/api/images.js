@@ -49,30 +49,39 @@ router.get('/album/:id', (req, res) => {
 
 // GET images by searching tags, names, and albums
 router.get('/search/:name', (req, res) => {
-    let matches = [];
     let nameLowerCase = req.params.name.toString().toLowerCase();
 
-    Image.find().populate("tags album")
+    Image.find({}).populate("tags album")
         .then(function (dbImages) {
-            dbImages.forEach(dbImage => {
-                console.log('dbImage', dbImage);
-                if (dbImage.name.toString().toLowerCase().contains(nameLowerCase)) {
-                    matches.push(dbImage)
-                }
-                else if (dbImage.album.name.toString().toLowerCase().contains(nameLowerCase)) {
-                    matches.push(dbImage)
-                }
-                else {
-                    dbImage.tags.forEach(dbTag => {
-                        console.log('dbTag', dbTag);
-                        if (dbTag.name.toString().toLowerCase() === req.params.name.toString().toLowerCase()) {
-                            matches.push(dbImage);
-                        }
-                    })
-                }
-            })
 
-            res.json(matches);
+            let findImages = (images) => {
+                let matches = [];
+                images.forEach((dbImage, index) => {
+                    if (dbImage.name.toString().toLowerCase().includes(nameLowerCase)) {
+                        // console.log('imageName match!', dbImage)
+                        matches.push(dbImage)
+                    }
+                    else if (dbImage.album.name.toString().toLowerCase().includes(nameLowerCase)) {
+                        // console.log('albumName match!', dbImage)
+                        matches.push(dbImage)
+                    }
+                    else {
+                        dbImage.tags.forEach(dbTag => {
+                            if (dbTag.name.toString().toLowerCase() === req.params.name.toString().toLowerCase()) {
+                                // console.log('tagName match!',dbImage)
+                                matches.push(dbImage);
+                            }
+                        })
+                    }
+                })
+                // console.log('matches',matches);
+                return matches;
+            }
+
+            let results = findImages(dbImages);
+            console.log('results',results);
+
+            res.json(results);
 
         })
         .catch(function (err) {

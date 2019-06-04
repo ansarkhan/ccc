@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import axios from 'axios';
+import {Link} from 'react-router-dom'
 import './SearchBar.css'
 
 export class SearchBar extends Component {
@@ -19,7 +20,7 @@ export class SearchBar extends Component {
         let url = `/api/images/search/${this.state.name}`;
 
         await axios.get(url);
-        this.props.history.push('/');
+        // this.props.history.push('/');
         setTimeout(() => {
             window.location.reload()
         }, 700);
@@ -48,15 +49,16 @@ export class SearchBar extends Component {
                                 autoComplete="off"
                             />
                             <label htmlFor="name">Tag, Image, or Album Name</label>
-                            <button
+                            {/* <button
                             className="btn-floating btn-large indigo custom_btn pulse"
                             type="submit"
                             name="action">
                             <i className="large material-icons">save</i>
-                        </button>
+                        </button> */}
                         </div>
 
                     </form>
+                    <Link to={`/images/search/${this.state.name}`}> Search </Link>
 
                 </div>
 

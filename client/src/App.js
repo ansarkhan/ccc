@@ -70,25 +70,31 @@ export default class App extends Component {
     return <Pictures pictures={currentImages} />
   }
 
-  searchPictures = (props) => {
-    let name = props.match.params.name;
-    let currentImages = [];
-    let imgMatch = this.state.images.filter(
-      img => img.name === name
-    );
-    let albumMatch = this.state.images.filter(
-      img => img.album.name === name
-    );
-    // let tagMatch = this.state.images.forEach(
-    //   img => img.tags.filter(
-    //     tag => tag.name === name
-    //   );
-    // );
-    currentImages.push(imgMatch);
-    currentImages.push(albumMatch);
-    // currentImages.push(tagMatch);
+  handleSearch = (img,searchName) => {
+    let search = searchName.toLowerCase()
+    if (img.name.toString().toLowerCase().includes(search)) {
+      return true;
+    }
+    else if (img.album.name.toString().toLowerCase().includes(search)) {
+      return true;
+    }
+    else {
+      let tagMatch = false;
+        img.tags.forEach(tag => {
+          if (tag.name.toString().toLowerCase() === search) {
+            tagMatch = true;
+          }
+        });
+        return tagMatch;
+    }
+  }
 
-    return <Pictures pictures={currentImages} />
+  searchPictures = (props) => {
+    var imgMatch = this.state.images.filter(
+      img => this.handleSearch(img,props.match.params.name)
+    );
+
+    return <Pictures pictures={imgMatch} />
   }
 
   addAlbum = (props) => {
@@ -116,11 +122,7 @@ export default class App extends Component {
               <Route exact path='/images/edit/:id' render={this.editPicture} />
               <Route exact path='/albums/edit/:id' render={this.editAlbum} />
               <Route exact path='/images/album/:id' render={this.getAlbum} />
-              <Route exact path='/images/search/:name' render={(routeProps) =>
-                <div>
-                  <SearchBar {...routeProps}/>
-                  {this.searchPictures}
-                </div>} />
+              <Route exact path='/images/search/:name' render={this.searchPictures}/>
             </div>
           </div>
 
