@@ -19,7 +19,7 @@ export class Uploader extends Component {
 
     };
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
       e.preventDefault();
 
       if(this.state.file === '') {
@@ -32,13 +32,12 @@ export class Uploader extends Component {
         const config = {
             headers: { 'content-type': 'multipart/form-data' }
         };
-        axios.post('/api/images', setTimeout(() => {
-          formData
-        }, 10000), config);
-        this.props.history.push('/');
-        setTimeout(() => {
-          window.location.reload()
-        }, 1000);
+        this.props.history.push('/pictures');
+        // setTimeout(() => {
+        //   window.location.reload()
+        // }, 1000);
+        await axios.post('/api/images', formData, config);
+
       };
       
     };
