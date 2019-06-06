@@ -32,7 +32,9 @@ export class Uploader extends Component {
         const config = {
             headers: { 'content-type': 'multipart/form-data' }
         };
-        axios.post('/api/images', formData, config);
+        axios.post('/api/images', setTimeout(() => {
+          formData
+        }, 10000), config);
         this.props.history.push('/');
         setTimeout(() => {
           window.location.reload()
