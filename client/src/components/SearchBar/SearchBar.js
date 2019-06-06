@@ -1,41 +1,34 @@
 import React, { Component, Fragment } from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 import './SearchBar.css'
 
 export class SearchBar extends Component {
     state = {
         name: ''
     }
-    componentDidMount() {
-        // let { name } = this.props.album;
-        // this.setState({
-        //     name: name
-        // });
-
-    };
 
     handleSubmit = async (e) => {
         e.preventDefault();
         let url = `/api/images/search/${this.state.name}`;
-
         await axios.get(url);
-        // this.props.history.push('/');
-        setTimeout(() => {
-            window.location.reload()
-        }, 700);
+        this.props.history.push(`/images/search/${this.state.name}`);
     };
 
     handleChange = (e) => {
+        let afterR = () => {
+            if(this.state.name === '' || this.state.name.length === 0) {
+                this.props.history.push(`/pictures/`);
+            }
+        }
         this.setState({
             [e.target.name]: e.target.value
-        });
+        }, () => afterR());
     };
 
     render() {
         return (
             <Fragment>
-                <h3 className="indigo-text">Search</h3>
                 <div className="col s12">
                     <form
                         onSubmit={this.handleSubmit}>
@@ -48,17 +41,10 @@ export class SearchBar extends Component {
                                 onChange={this.handleChange}
                                 autoComplete="off"
                             />
-                            <label htmlFor="name">Tag, Image, or Album Name</label>
-                            {/* <button
-                            className="btn-floating btn-large indigo custom_btn pulse"
-                            type="submit"
-                            name="action">
-                            <i className="large material-icons">save</i>
-                        </button> */}
                         </div>
 
+                    <button className='btn indigo'> Search </button>
                     </form>
-                    <Link to={`/images/search/${this.state.name}`}> Search </Link>
 
                 </div>
 
@@ -67,4 +53,4 @@ export class SearchBar extends Component {
     }
 }
 
-export default SearchBar
+export default withRouter(SearchBar)
