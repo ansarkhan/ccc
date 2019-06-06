@@ -34,9 +34,9 @@ export class Uploader extends Component {
         };
         axios.post('/api/images', formData, config);
         this.props.history.push('/');
-        setTimeout(() => {
-          window.location.reload()
-        }, 1000);
+        // setTimeout(() => {
+        //   window.location.reload()
+        // }, 1000);
       };
       
     };
