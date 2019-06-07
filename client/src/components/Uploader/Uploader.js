@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import Snackbar from '@material-ui/core/Snackbar';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
 import axios from 'axios';
 import './Uploader.css';
 
@@ -6,7 +9,8 @@ export class Uploader extends Component {
 
     state = {
         file: '',
-        selected: null
+        selected: null,
+        open: false
     };
 
     handleChange = (e) => {
@@ -26,7 +30,7 @@ export class Uploader extends Component {
        this.setState({selected: false})
 
       } else {
-        
+        this.setState({open: true});
         const formData = new FormData();
         formData.append('myImage',this.state.file);
         const config = {
@@ -36,9 +40,8 @@ export class Uploader extends Component {
           window.location.reload()
         }, 10000);
         await axios.post('/api/images', formData, config);
-
-      };
-      
+        
+      };      
     };
     renderFiles = () => {
       if(this.state.selected === false) {
@@ -47,6 +50,10 @@ export class Uploader extends Component {
         return <div>{this.state.file.name}</div>
       }
     };
+
+    closeSnackbar = () => {
+      this.setState({open: false})
+  };
 
   render() {
     return (
@@ -68,6 +75,23 @@ export class Uploader extends Component {
       </form>
 
       {this.renderFiles()}
+
+      <Snackbar
+            anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}   
+            open={this.state.open}   
+            autoHideDuration={10000}
+            message={ 
+                <span id='message-id'>
+                   {this.state.file.name} is Uploading
+                </span> }  
+            ContentProps={{"aria-describedby": 'message-id'}}
+            onClose={this.closeSnackbar}
+            action={[
+                <IconButton onClick={this.closeSnackbar} color='inherit' key='close' aria-label='close'>
+                    <CloseIcon />
+                </IconButton>
+            ]}
+             />
       
       </div>
     )
