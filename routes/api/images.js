@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const keys = require('../../config/keys');
 const Album = require('../../models/Album');
 const Image = require('../../models/Image');
 const Tag = require('../../models/Tag');
