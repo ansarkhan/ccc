@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Snackbar from '@material-ui/core/Snackbar';
-import CloseIcon from '@material-ui/icons/Close';
-import IconButton from '@material-ui/core/IconButton';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Loader from 'react-loader-spinner'
 import axios from 'axios';
 import './Uploader.css';
 
@@ -10,7 +10,7 @@ export class Uploader extends Component {
     state = {
         file: '',
         selected: null,
-        open: false
+        open: true
     };
 
     handleChange = (e) => {
@@ -30,7 +30,15 @@ export class Uploader extends Component {
        this.setState({selected: false})
 
       } else {
-        this.setState({open: true});
+        this.setState({open: false});
+        toast.success(`Uploading ${this.state.file.name} `, {
+          position: "bottom-right",
+          autoClose: 10000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true
+          });
         const formData = new FormData();
         formData.append('myImage',this.state.file);
         const config = {
@@ -51,14 +59,11 @@ export class Uploader extends Component {
       }
     };
 
-    closeSnackbar = () => {
-      this.setState({open: false})
-  };
-
   render() {
     return (
       <div className="Uploader">
             <h1>uploader</h1>
+{ this.state.open ?
     <form
         onSubmit={this.handleSubmit}
         className="image-form" 
@@ -72,26 +77,30 @@ export class Uploader extends Component {
         onChange= {this.handleChange} />
         <label htmlFor="fileName">Choose a file</label>
         <button type="submit" className="btn indigo">Upload</button>
-      </form>
-
+      </form> :
+      <div>
+        <p>Uploading Now! Please Wait...</p>
+      <Loader 
+         type="Puff"
+         color="#333"
+         height="100"	
+         width="100"
+      />   
+      </div> 
+}
       {this.renderFiles()}
 
-      <Snackbar
-            anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}   
-            open={this.state.open}   
-            autoHideDuration={10000}
-            message={ 
-                <span id='message-id'>
-                   {this.state.file.name} is Uploading
-                </span> }  
-            ContentProps={{"aria-describedby": 'message-id'}}
-            onClose={this.closeSnackbar}
-            action={[
-                <IconButton onClick={this.closeSnackbar} color='inherit' key='close' aria-label='close'>
-                    <CloseIcon />
-                </IconButton>
-            ]}
-             />
+             <ToastContainer
+              position="bottom-center"
+              autoClose={10000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnVisibilityChange={false}
+              draggable
+              pauseOnHover={false}
+              />
       
       </div>
     )
