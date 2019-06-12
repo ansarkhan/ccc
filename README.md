@@ -19,7 +19,7 @@ Recognicer is a smart online photo library that lets you securely store, filter 
 
 ## Authors
 **Julian, Nolan, Logan, Craig & Ansar** \
-For further detail, see the list of [contributors](https://github.com/ansarkhan/Recognicer/graphs/contributors) for this project along with individual commit history. \
+For further detail, see the list of [contributors](https://github.com/ansarkhan/Recognicer/graphs/contributors) for this project along with individual commit history.
 
 ## Planned Updates
 
