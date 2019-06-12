@@ -2,7 +2,7 @@
 
 Recognicer is a smart online photo library that lets you securely store, filter and organize your photo collection. The app is built on a MERN stack and utilizes S3 and Rekognition by AWS.
 
-[Deployed Here](https://mighty-garden-76734.herokuapp.com/)
+### [Deployed Here](https://mighty-garden-76734.herokuapp.com/)
 
 ## Getting Started
 - Clone repo
