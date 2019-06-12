@@ -18,8 +18,8 @@ Recognicer is a smart online photo library that lets you securely store, filter 
 * [AWS](https://aws.amazon.com/) - Using S3 and Rekognition by AWS
 
 ## Authors
-* **Julian, Nolan, Logan, Craig & Ansar** 
-* For further detail, see the list of [contributors](https://github.com/ansarkhan/Recognicer/graphs/contributors) for this project along with individual commit history.
+**Julian, Nolan, Logan, Craig & Ansar** \
+For further detail, see the list of [contributors](https://github.com/ansarkhan/Recognicer/graphs/contributors) for this project along with individual commit history. \
 
 ## Planned Updates
 
